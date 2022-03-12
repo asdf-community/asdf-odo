@@ -25,8 +25,6 @@
 Plugin:
 
 ```shell
-asdf plugin add odo
-# or
 asdf plugin add odo https://github.com/rm3l/asdf-odo.git
 ```
 
