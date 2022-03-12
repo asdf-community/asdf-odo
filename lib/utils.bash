@@ -43,10 +43,16 @@ download_release() {
 
   # Adapt the release URL convention for odo
   url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-linux-amd64"
-  # url="$GH_REPO/archive/v${version}.tar.gz"
-
+  
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+
+  echo "* Verifying filename integrity..."
+  shaurl="${url}.sha256"
+  shafilename="$filename.sha256"
+  curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
+  (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file: "
+
   chmod a+x "$filename"
 }
 
