@@ -12,6 +12,31 @@ fail() {
   exit 1
 }
 
+uname_os() {
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+  case "$os" in
+  msys* | cygwin* | mingw*)
+    os='windows'
+    ;;
+  esac
+
+  echo "$os"
+}
+
+uname_arch() {
+  arch=$(uname -m)
+  case $arch in
+  x86_64) arch="amd64" ;;
+  x86 | i686 | i386) arch="386" ;;
+  aarch64) arch="arm64" ;;
+  armv5*) arch="armv5" ;;
+  armv6*) arch="armv6" ;;
+  armv7*) arch="armv7" ;;
+  esac
+  echo "$arch"
+}
+
 curl_opts=(-fsSL)
 
 # NOTE: You might want to remove this if odo is not hosted on GitHub releases.
@@ -31,27 +56,30 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
+  # By default we simply list the tag names from GitHub releases.
   # Change this function if odo has other means of determining installable versions.
   list_github_tags
 }
 
 download_release() {
+  os=$(uname_os)
+  arch=$(uname_arch)
+
   local version filename url
   version="$1"
   filename="$2"
 
   # Adapt the release URL convention for odo
-  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-linux-amd64"
-  
-  echo "* Downloading $TOOL_NAME release $version..."
+  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-$os-$arch"
+
+  echo "* Downloading $TOOL_NAME release $version, for $os/$arch..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 
   echo "* Verifying filename integrity..."
   shaurl="${url}.sha256"
   shafilename="$filename.sha256"
   curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
-  (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file: "
+  (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
 
   chmod a+x "$filename"
 }
@@ -74,7 +102,7 @@ install_version() {
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
 
-    echo "$TOOL_NAME $version installation was successful!"
+    echo "$TOOL_NAME $version installation was successful! Run: asdf <global | local> $TOOL_NAME ${version}"
   ) || (
     rm -rf "$install_path"
     fail "An error ocurred while installing $TOOL_NAME $version."
