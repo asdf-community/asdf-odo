@@ -16,8 +16,25 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          command: odo version
+          asdf_branch: v0.9.0
+
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Install latest odo
+        run: asdf install odo latest
+        
+      - run: asdf global odo latest
+
+      - name: Test binary
+        run: |
+          odo version
+          odo help
