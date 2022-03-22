@@ -40,7 +40,7 @@ asdf install odo latest
 # You can even install specific refs (commits or branches)from the upstream repo
 # > asdf install odo ref:main
 # TODO Allow to install specific refs (commits or branches) from forks, like so:
-# > asdf install odo ref:<ref>@<remote_url>#
+# > asdf install odo ref:<ref>@<remote_url>
 
 # Set a version globally (on your ~/.tool-versions file)
 asdf global odo latest

@@ -71,10 +71,10 @@ switch_ref() {
   else
     mkdir -p "$ASDF_DOWNLOAD_PATH/src"
     local version="${ASDF_INSTALL_VERSION}"
-    if grep -q "@@" <<< "$ASDF_INSTALL_VERSION"; then
+    if grep -q "@@" <<<"$ASDF_INSTALL_VERSION"; then
       # TODO Not working yet via 'asdf install odo ref:main@@github.com/rm3l/odo'
-      gh_ref=$(awk -F "@@" '{print $1}' <<< "$ASDF_INSTALL_VERSION")
-      gh_repo=$(awk -F "@@" '{print $2}' <<< "$ASDF_INSTALL_VERSION")
+      gh_ref=$(awk -F "@@" '{print $1}' <<<"$ASDF_INSTALL_VERSION")
+      gh_repo=$(awk -F "@@" '{print $2}' <<<"$ASDF_INSTALL_VERSION")
       # IFS=';' read -r -a install_version_all <<<"$ASDF_INSTALL_VERSION"
       # gh_ref="${install_version_all[1]}"
       if [[ "${gh_repo}" != *"@"* ]]; then
