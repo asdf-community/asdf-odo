@@ -11,9 +11,9 @@ mkdir -p "$ASDF_DOWNLOAD_PATH/bin"
 source "${plugin_dir}/lib/utils.bash"
 
 if [[ "$ASDF_INSTALL_TYPE" == "ref" ]]; then
-    switch_ref
+  switch_ref
 else
-    release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
-    # Download binary file to the download directory
-    download_release "$ASDF_INSTALL_VERSION" "$release_file"
+  release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
+  # Download binary file to the download directory
+  download_release "$ASDF_INSTALL_VERSION" "$release_file"
 fi

@@ -64,12 +64,12 @@ list_all_versions() {
 
 switch_ref() {
   if [ -d "$ASDF_DOWNLOAD_PATH/src" ]; then
-        cd "$ASDF_DOWNLOAD_PATH/src"
-        git fetch --prune --all --tags
+    cd "$ASDF_DOWNLOAD_PATH/src"
+    git fetch --prune --all --tags
   else
-      mkdir -p "$ASDF_DOWNLOAD_PATH/src"
-      git clone "${GH_REPO}" "$ASDF_DOWNLOAD_PATH/src"
-      cd "$ASDF_DOWNLOAD_PATH/src"
+    mkdir -p "$ASDF_DOWNLOAD_PATH/src"
+    git clone "${GH_REPO}" "$ASDF_DOWNLOAD_PATH/src"
+    cd "$ASDF_DOWNLOAD_PATH/src"
   fi
   #TODO(rm3l): git pull if same branch
   git checkout "${ASDF_INSTALL_VERSION}"
