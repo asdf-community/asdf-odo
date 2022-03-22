@@ -17,7 +17,7 @@
 # Dependencies
 
 - `bash`, `curl`, `tar`, `shasum`: generic POSIX utilities
-- Optionally, `git` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. Note you can install Golang with this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
+- Optionally, `awk`, `git` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 # Install
 
@@ -40,7 +40,7 @@ asdf install odo latest
 # You can even install specific refs (commits or branches)from the upstream repo
 # > asdf install odo ref:main
 # TODO Allow to install specific refs (commits or branches) from forks, like so:
-# > asdf install odo ref:<remote_url>#<ref>
+# > asdf install odo ref:<ref>@<remote_url>#
 
 # Set a version globally (on your ~/.tool-versions file)
 asdf global odo latest
