@@ -11,14 +11,13 @@
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Why?](#why)
 - [Contributing](#contributing)
 - [License](#license)
 
 # Dependencies
 
-- `bash`, `curl`, `tar`, `shasum`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- `bash`, `curl`, `tar`, `shasum`: generic POSIX utilities
+- Optionally, `git` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. Note you can install Golang with this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 # Install
 
@@ -34,8 +33,14 @@ odo:
 # Show all installable versions
 asdf list-all odo
 
-# Install specific version
+# Install latest version
 asdf install odo latest
+# You can also install specific versions, e.g.:
+# > asdf install odo 2.5.0
+# You can even install specific refs (commits or branches)from the upstream repo
+# > asdf install odo ref:main
+# TODO Allow to install specific refs (commits or branches) from forks, like so:
+# > asdf install odo ref:<remote_url>#<ref>
 
 # Set a version globally (on your ~/.tool-versions file)
 asdf global odo latest
