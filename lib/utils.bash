@@ -53,7 +53,7 @@ list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
     grep -o 'refs/tags/.*' | cut -d/ -f3- |
     sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
-  echo main
+  echo "ref:<commit_or_branch>"
 }
 
 list_all_versions() {
@@ -112,7 +112,7 @@ install_version() {
     if [[ "$install_type" == "ref" ]]; then
       cd "$ASDF_DOWNLOAD_PATH/src"
       make bin
-      cp -vr "./$tool_cmd" "$install_path"/bin
+      mv "./$tool_cmd" "$install_path"/bin
     else
       mkdir -p "$install_path"
       cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
