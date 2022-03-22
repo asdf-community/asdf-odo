@@ -38,3 +38,13 @@ jobs:
         run: |
           odo version
           odo help
+
+      - name: Install using ref
+        run: asdf install odo "ref:main"
+
+      - run: asdf global odo "ref:main"
+
+      - name: Test binary
+        run: |
+          odo version
+          odo help
