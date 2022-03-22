@@ -63,16 +63,29 @@ list_all_versions() {
 }
 
 switch_ref() {
+  local gh_repo="${GH_REPO}"
+  local gh_ref="${ASDF_INSTALL_VERSION}"
   if [ -d "$ASDF_DOWNLOAD_PATH/src" ]; then
     cd "$ASDF_DOWNLOAD_PATH/src"
     git fetch --prune --all --tags
   else
     mkdir -p "$ASDF_DOWNLOAD_PATH/src"
-    git clone "${GH_REPO}" "$ASDF_DOWNLOAD_PATH/src"
+    local version="${ASDF_INSTALL_VERSION}"
+    if grep -q "@@" <<< "$ASDF_INSTALL_VERSION"; then
+      # TODO Not working yet via 'asdf install odo ref:main@@github.com/rm3l/odo'
+      gh_ref=$(awk -F "@@" '{print $1}' <<< "$ASDF_INSTALL_VERSION")
+      gh_repo=$(awk -F "@@" '{print $2}' <<< "$ASDF_INSTALL_VERSION")
+      # IFS=';' read -r -a install_version_all <<<"$ASDF_INSTALL_VERSION"
+      # gh_ref="${install_version_all[1]}"
+      if [[ "${gh_repo}" != *"@"* ]]; then
+        gh_repo="https://${gh_repo}"
+      fi
+    fi
+    git clone "${gh_repo}" "$ASDF_DOWNLOAD_PATH/src"
     cd "$ASDF_DOWNLOAD_PATH/src"
   fi
   #TODO(rm3l): git pull if same branch
-  git checkout "${ASDF_INSTALL_VERSION}"
+  git checkout "${gh_ref}"
   cd -
 }
 
