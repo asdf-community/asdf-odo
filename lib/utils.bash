@@ -67,7 +67,6 @@ download_ref() {
   gh_repo="$2"
   gh_ref="$3"
 
-
   local file_dl_dir extraction_dir extraction_tmp_dir
   file_dl_dir="$dl_dir/dl"
   extraction_dir="$dl_dir/src"
