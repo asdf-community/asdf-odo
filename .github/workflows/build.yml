@@ -36,22 +36,50 @@ jobs:
           mkdir -p ~/.asdf/plugins
           ln -sf "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Install latest odo
-        run: asdf install odo latest
-        
-      - run: asdf global odo latest
-
-      - name: Test binary
+      - name: Install and test latest odo
         run: |
+          asdf install odo latest
+          asdf global odo latest
           odo version
-          odo help
 
-      - name: Install using ref
-        run: asdf install odo "ref:main"
-
-      - run: asdf global odo "ref:main"
-
-      - name: Test binary
+      - name: Install and test odo using Git branch from upstream repo
+        env:
+          GIT_REF: v2
         run: |
-          odo version
-          odo help
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+          version_output=$(odo version)
+          grep -q "ref:$GIT_REF" <<< "$version" || \
+            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+
+      - name: Install and test odo using Git commit from upstream repo
+        env:
+          GIT_REF: 7618e8f3e4385bdca620e934c0b27d8fcc878099
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+          version_output=$(odo version)
+          grep -q "ref:$GIT_REF" <<< "$version" || \
+            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+
+      - name: Install and test odo using Git branch from fork repo
+        env:
+          ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
+          GIT_REF: docs-getting-started-order
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+          version_output=$(odo version)
+          grep -q "ref:$GIT_REF" <<< "$version" || \
+            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+
+      - name: Install and test odo using Git commit from fork repo
+        env:
+          ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
+          GIT_REF: 2c6c9f1a418c6620026a1d9908f268083a706e35
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+          version_output=$(odo version)
+          grep -q "ref:$GIT_REF" <<< "$version" || \
+            echo "Expected 'odo version' to contain \"ref:${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO}\", but got $version_output"
