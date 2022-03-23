@@ -53,7 +53,6 @@ list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
     grep -o 'refs/tags/.*' | cut -d/ -f3- |
     sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
-  echo "ref:<commit_or_branch>"
 }
 
 list_all_versions() {
@@ -62,31 +61,33 @@ list_all_versions() {
   list_github_tags
 }
 
-switch_ref() {
-  local gh_repo="${GH_REPO}"
-  local gh_ref="${ASDF_INSTALL_VERSION}"
-  if [ -d "$ASDF_DOWNLOAD_PATH/src" ]; then
-    cd "$ASDF_DOWNLOAD_PATH/src"
-    git fetch --prune --all --tags
-  else
-    mkdir -p "$ASDF_DOWNLOAD_PATH/src"
-    local version="${ASDF_INSTALL_VERSION}"
-    if grep -q "@@" <<<"$ASDF_INSTALL_VERSION"; then
-      # TODO Not working yet via 'asdf install odo ref:main@@github.com/rm3l/odo'
-      gh_ref=$(awk -F "@@" '{print $1}' <<<"$ASDF_INSTALL_VERSION")
-      gh_repo=$(awk -F "@@" '{print $2}' <<<"$ASDF_INSTALL_VERSION")
-      # IFS=';' read -r -a install_version_all <<<"$ASDF_INSTALL_VERSION"
-      # gh_ref="${install_version_all[1]}"
-      if [[ "${gh_repo}" != *"@"* ]]; then
-        gh_repo="https://${gh_repo}"
-      fi
-    fi
-    git clone "${gh_repo}" "$ASDF_DOWNLOAD_PATH/src"
-    cd "$ASDF_DOWNLOAD_PATH/src"
-  fi
-  #TODO(rm3l): git pull if same branch
-  git checkout "${gh_ref}"
-  cd -
+download_ref() {
+  local dl_dir gh_repo gh_ref
+  dl_dir="$1"
+  gh_repo="$2"
+  gh_ref="$3"
+
+
+  local file_dl_dir extraction_dir extraction_tmp_dir
+  file_dl_dir="$dl_dir/dl"
+  extraction_dir="$dl_dir/src"
+  extraction_tmp_dir="$dl_dir/tmp"
+  mkdir -p "$dl_dir" "$file_dl_dir" "$extraction_tmp_dir"
+
+  local url filename
+  url="${gh_repo}/archive/${gh_ref}.zip"
+  filename="$file_dl_dir/src.zip"
+  [ -f "$filename" ] || (
+    echo "* Downloading $TOOL_NAME archive from $url..."
+    curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  )
+
+  rm -rf "$extraction_dir" "$extraction_tmp_dir"
+  mkdir -p "$extraction_dir"
+  echo "* Extracting file $filename to $extraction_tmp_dir..."
+  unzip -q "$filename" -d "$extraction_tmp_dir" || fail "Could not extract file $filename to $extraction_tmp_dir"
+  mv "${extraction_tmp_dir}/${TOOL_NAME}-"*/* "${extraction_dir}"
+  rm -rf "${extraction_tmp_dir}" "$filename"
 }
 
 download_release() {
@@ -124,7 +125,13 @@ install_version() {
     mkdir -p "$install_path"/bin
     if [[ "$install_type" == "ref" ]]; then
       cd "$ASDF_DOWNLOAD_PATH/src"
-      make bin
+      local git_commit_for_version
+      if [[ "${ASDF_GITHUB_REPO_FOR_ODO:-}" == "" ]]; then
+        git_commit_for_version="${version}"
+      else
+        git_commit_for_version="${version}@${ASDF_GITHUB_REPO_FOR_ODO}"
+      fi
+      GITCOMMIT="${git_commit_for_version}" make bin
       mv "./$tool_cmd" "$install_path"/bin
     else
       mkdir -p "$install_path"
@@ -139,7 +146,13 @@ install_version() {
     # Assert odo executable exists.
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
 
-    echo "$TOOL_NAME $version installation was successful! Run: asdf <global | local> $TOOL_NAME ${version}"
+    local msg
+    msg="$TOOL_NAME $version installation was successful! Run: asdf <global | local> $TOOL_NAME"
+    if [[ "$install_type" == "ref" ]]; then
+      echo "$msg ref:${version}"
+    else
+      echo "$msg ${version}"
+    fi
   ) || (
     rm -rf "$install_path"
     fail "An error occurred while building and/or installing $TOOL_NAME $version"

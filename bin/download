@@ -11,9 +11,11 @@ mkdir -p "$ASDF_DOWNLOAD_PATH/bin"
 source "${plugin_dir}/lib/utils.bash"
 
 if [[ "$ASDF_INSTALL_TYPE" == "ref" ]]; then
-  switch_ref
+  dl_dir="$ASDF_DOWNLOAD_PATH"
+  gh_repo="${ASDF_GITHUB_REPO_FOR_ODO:-$GH_REPO}"
+  gh_ref="${ASDF_INSTALL_VERSION}"
+  download_ref "$dl_dir" "$gh_repo" "$gh_ref"
 else
   release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
-  # Download binary file to the download directory
   download_release "$ASDF_INSTALL_VERSION" "$release_file"
 fi
