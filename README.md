@@ -39,19 +39,17 @@ asdf list-all odo
 # Install latest version
 asdf install odo latest
 
-# List all installed versions
-asdf list odo
-
 # Set a version globally (on your ~/.tool-versions file)
 asdf global odo latest
 
 # Set a version depending on the project directory.
 # Note that this creates a file named '.tool-versions' in the current directory.
 # You may want to put that file under version control.
-asdf local odo latest
+asdf local odo <version>
 
 # Now odo commands are available
 odo version
+odo help
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) README for more instructions on how to
