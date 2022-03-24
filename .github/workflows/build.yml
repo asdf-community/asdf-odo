@@ -24,12 +24,6 @@ jobs:
         with:
           asdf_branch: v0.9.0
 
-      - name: Install Golang (for installing odo from Git refs)
-        run: |
-          asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
-          asdf install golang 1.16.15
-          asdf global golang 1.16.15
-
       # TODO(rm3l): remove this once asdf-odo repo becomes public
       - name: Install plugin manually
         run: |
@@ -42,44 +36,86 @@ jobs:
           asdf global odo latest
           odo version
 
-      - name: Install and test odo using Git branch from upstream repo
-        env:
-          GIT_REF: v2
-        run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
-          version_output=$(odo version)
-          grep -q "ref:$GIT_REF" <<< "$version" || \
-            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+  plugin_test_git_ref_upstream_repo:
+    name: asdf plugin test using Git refs
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        git_ref: [v2, 7618e8f3e4385bdca620e934c0b27d8fcc878099]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install and test odo using Git commit from upstream repo
-        env:
-          GIT_REF: 7618e8f3e4385bdca620e934c0b27d8fcc878099
-        run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
-          version_output=$(odo version)
-          grep -q "ref:$GIT_REF" <<< "$version" || \
-            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
 
-      - name: Install and test odo using Git branch from fork repo
-        env:
-          ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
-          GIT_REF: docs-getting-started-order
+      - name: Install Golang (for installing odo from Git refs)
         run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
-          version_output=$(odo version)
-          grep -q "ref:$GIT_REF" <<< "$version" || \
-            echo "Expected 'odo version' to contain \"ref:$GIT_REF\", but got $version_output"
+          asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+          asdf install golang 1.16.15
+          asdf global golang 1.16.15
 
-      - name: Install and test odo using Git commit from fork repo
+      # TODO(rm3l): remove this once asdf-odo repo becomes public
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Install and test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
-          ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
-          GIT_REF: 2c6c9f1a418c6620026a1d9908f268083a706e35
+          GIT_REF: ${{ matrix.git_ref }}
         run: |
           asdf install odo ref:$GIT_REF
           asdf global odo ref:$GIT_REF
           version_output=$(odo version)
-          grep -q "ref:$GIT_REF" <<< "$version" || \
-            echo "Expected 'odo version' to contain \"ref:${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO}\", but got $version_output"
+          grep -q "($GIT_REF)" <<< "$version"
+          if [[ $? != 0 ]]; then
+            echo "Expected 'odo version' to contain \"($GIT_REF)\", but got $version_output"
+            exit 1
+          fi
+
+  plugin_test_git_ref_fork_repo:
+    name: asdf plugin test using Git refs
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        git_ref: [docs-getting-started-order, 2c6c9f1a418c6620026a1d9908f268083a706e35]
+    runs-on: ${{ matrix.os }}
+    env:
+      ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
+
+      - name: Install Golang (for installing odo from Git refs)
+        run: |
+          asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+          asdf install golang 1.16.15
+          asdf global golang 1.16.15
+
+      # TODO(rm3l): remove this once asdf-odo repo becomes public
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Install and test odo using Git ref (${{ matrix.git_ref }}) from fork repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+          version_output=$(odo version)
+          grep -q "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" <<< "$version"
+          if [[ $? != 0 ]]; then
+            echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})\", but got $version_output"
+            exit 1
+          fi
