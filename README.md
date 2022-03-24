@@ -99,6 +99,9 @@ You can now uninstall any version listed above, like so:
 asdf uninstall odo <version>
 ```
 
+## How do I reinstall an already installed version of odo?
+First uninstall it, and then install it again.
+
 # Contributing
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
