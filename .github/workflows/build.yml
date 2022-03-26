@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+env:
+  ODO_CONFIG: "/.config/odo/settings.yaml"
+
 jobs:
   plugin_test:
     name: asdf plugin test
@@ -15,6 +18,8 @@ jobs:
           - ubuntu-latest
           - macos-latest
     runs-on: ${{ matrix.os }}
+    env:
+      GLOBALODOCONFIG: "${{ env:HOME}}/${{ env:ODO_CONFIG }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -30,11 +35,23 @@ jobs:
           mkdir -p ~/.asdf/plugins
           ln -sf "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Install and test latest odo
+      - name: Create odo preferences file
+        run: |
+          mkdir -p "$(dirname ${HOME}/$ODO_CONFIG)"
+          cat <<EOF > "${HOME}/$ODO_CONFIG"
+          kind: Preference
+          apiversion: odo.dev/v1alpha1
+          OdoSettings:
+            ConsentTelemetry: true
+          EOF
+
+      - name: Install latest odo
         run: |
           asdf install odo latest
           asdf global odo latest
-          odo version
+
+      - name: Test odo
+        run: odo version
 
   plugin_test_git_ref_upstream_repo:
     name: asdf plugin test using Git refs
@@ -43,6 +60,8 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         git_ref: [v2, 7618e8f3e4385bdca620e934c0b27d8fcc878099]
     runs-on: ${{ matrix.os }}
+    env:
+      GLOBALODOCONFIG: "${{ env:HOME}}/${{ env:ODO_CONFIG }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -64,12 +83,27 @@ jobs:
           mkdir -p ~/.asdf/plugins
           ln -sf "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Install and test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
+      - name: Create odo preferences file
+        run: |
+          mkdir -p "$(dirname ${HOME}/$ODO_CONFIG)"
+          cat <<EOF > "${HOME}/$ODO_CONFIG"
+          kind: Preference
+          apiversion: odo.dev/v1alpha1
+          OdoSettings:
+            ConsentTelemetry: true
+          EOF
+
+      - name: Install odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
           asdf install odo ref:$GIT_REF
           asdf global odo ref:$GIT_REF
+
+      - name: Test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
           version_output=$(odo version)
           grep -q "($GIT_REF)" <<< "$version"
           if [[ $? != 0 ]]; then
@@ -86,6 +120,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
+      GLOBALODOCONFIG: "${{ env:HOME}}/${{ env:ODO_CONFIG }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -107,7 +142,24 @@ jobs:
           mkdir -p ~/.asdf/plugins
           ln -sf "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Install and test odo using Git ref (${{ matrix.git_ref }}) from fork repo
+      - name: Create odo preferences file
+        run: |
+          mkdir -p "$(dirname ${HOME}/$ODO_CONFIG)"
+          cat <<EOF > "${HOME}/$ODO_CONFIG"
+          kind: Preference
+          apiversion: odo.dev/v1alpha1
+          OdoSettings:
+            ConsentTelemetry: true
+          EOF
+
+      - name: Download and install odo using Git ref (${{ matrix.git_ref }}) from fork repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+
+      - name: Test odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
