@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  ODO_CONFIG_RELATIVE_TO_HOME: "/.config/odo/settings.yaml"
+  ODO_CONFIG_RELATIVE_TO_HOME: ".config/odo/settings.yaml"
 
 jobs:
   plugin_test:
@@ -108,8 +108,10 @@ jobs:
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
+          odo version
           version_output=$(odo version)
-          grep -q "($GIT_REF)" <<< "$version"
+          echo "version_output=$version_output"
+          grep "($GIT_REF)" <<< "$version"
           if [[ $? != 0 ]]; then
             echo "Expected 'odo version' to contain \"($GIT_REF)\", but got $version_output"
             exit 1
@@ -170,10 +172,10 @@ jobs:
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
+          odo version
           version_output=$(odo version)
-          grep -q "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" <<< "$version"
+          echo "version_output=$version_output"
+          grep "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" <<< "$version"
           if [[ $? != 0 ]]; then
             echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})\", but got $version_output"
             exit 1
