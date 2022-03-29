@@ -17,8 +17,9 @@
 
 # Dependencies
 
-- `bash`, `curl`, `tar`, `shasum`: generic POSIX utilities
-- Optionally, `unzip`, `git` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
+- `bash`, `curl`, `shasum`: generic POSIX utilities
+- `git`
+- Optionally, `unzip` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 # Install
 
@@ -73,12 +74,12 @@ asdf install odo <version>
 
 NOTE: As this requires building `odo`, the commands below require `unzip`, `git` and [Golang](https://go.dev/doc/install) to be installed. You may want to install Golang using this other plugin for asdf: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
-### Using the upstream repo
+### Using the upstream GitHub repo
 ```shell
 asdf install odo ref:<commit_or_branch>
 ```
 
-### Using a different fork repo
+### Using a different fork repo on GitHub
 You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand:
 
 ```shell
@@ -98,7 +99,8 @@ asdf uninstall odo <version>
 ```
 
 ## How do I reinstall an already installed version of odo?
-First uninstall it, and then install it again.
+Because of the way asdf works, if you installed odo from a development branch or commit and wish to update it, you need to reinstall that specific version.
+To reinstalled an already installed version of odo, first [uninstall it](README.md#how-do-i-uninstall-a-given-version-of-odo), and then [install it](README.md#install) again.
 
 # Contributing
 
