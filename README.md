@@ -99,14 +99,14 @@ asdf uninstall odo <version>
 ```
 
 ## How do I reinstall an already installed version of odo?
-Because of the way asdf works, if you installed odo from a development branch or commit and wish to update it, you need to reinstall that specific version.
-To reinstalled an already installed version of odo, first [uninstall it](README.md#how-do-i-uninstall-a-given-version-of-odo), and then [install it](README.md#install) again.
+Because of the way asdf works, if you installed odo from a development branch and wish to update it, you need to reinstall that specific version.
+To reinstall an already installed version of odo, first [uninstall it](README.md#how-do-i-uninstall-a-given-version-of-odo), and then [install it](README.md#install) again.
 
 # Contributing
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-[Thanks goes to these contributors](https://github.com/rm3l/asdf-odo/graphs/contributors)!
+[Thanks to these contributors](https://github.com/rm3l/asdf-odo/graphs/contributors)!
 
 # License
 
