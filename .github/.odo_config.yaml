@@ -1,0 +1,4 @@
+kind: Preference
+apiversion: odo.dev/v1alpha1
+OdoSettings:
+  ConsentTelemetry: true

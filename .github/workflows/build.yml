@@ -11,7 +11,7 @@ env:
 
 jobs:
   plugin_test:
-    name: asdf plugin test
+    name: test
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -38,12 +38,7 @@ jobs:
       - name: Create odo preferences file
         run: |
           mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cat <<EOF > "$GLOBALODOCONFIG"
-          kind: Preference
-          apiversion: odo.dev/v1alpha1
-          OdoSettings:
-            ConsentTelemetry: true
-          EOF
+          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
 
       - name: Install latest odo
         run: |
@@ -54,7 +49,7 @@ jobs:
         run: odo version
 
   plugin_test_git_ref_upstream_repo:
-    name: asdf plugin test using Git refs from upstream repo
+    name: Git refs from upstream repo
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -88,12 +83,7 @@ jobs:
       - name: Create odo preferences file
         run: |
           mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cat <<EOF > "$GLOBALODOCONFIG"
-          kind: Preference
-          apiversion: odo.dev/v1alpha1
-          OdoSettings:
-            ConsentTelemetry: true
-          EOF
+          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
 
       - name: Install odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
@@ -113,7 +103,7 @@ jobs:
           fi
 
   plugin_test_git_ref_fork_repo:
-    name: asdf plugin test using Git refs from fork
+    name: Git refs from fork
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -149,12 +139,7 @@ jobs:
       - name: Create odo preferences file
         run: |
           mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cat <<EOF > "$GLOBALODOCONFIG"
-          kind: Preference
-          apiversion: odo.dev/v1alpha1
-          OdoSettings:
-            ConsentTelemetry: true
-          EOF
+          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
 
       - name: Download and install odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
