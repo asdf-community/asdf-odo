@@ -83,7 +83,13 @@ asdf install odo ref:<commit_or_branch>
 You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand:
 
 ```shell
-ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/odo asdf install odo ref:<commit_or_branch>
+ASDF_GITHUB_REPO_FOR_ODO=<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
+```
+
+Or:
+
+```shell
+ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
 ```
 
 ## How do I uninstall a given version of odo?

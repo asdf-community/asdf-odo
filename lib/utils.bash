@@ -64,7 +64,13 @@ list_all_versions() {
 download_ref() {
   local dl_dir gh_repo gh_ref
   dl_dir="$1"
-  gh_repo="$2"
+
+  if [[ "$2" == "https://github.com/"* ]]; then
+    gh_repo="$2"
+  else
+    gh_repo="https://github.com/$2"
+  fi
+
   gh_ref="$3"
 
   local file_dl_dir extraction_dir extraction_tmp_dir
