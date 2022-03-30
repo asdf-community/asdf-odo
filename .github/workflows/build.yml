@@ -6,9 +6,6 @@ on:
       - main
   pull_request:
 
-env:
-  ODO_CONFIG_RELATIVE_TO_HOME: ".config/odo/settings.yaml"
-
 jobs:
   plugin_test:
     name: test
@@ -31,14 +28,9 @@ jobs:
           mkdir -p ~/.asdf/plugins
           cp -r "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Set environment variable
+      - name: Set path to odo config file
         run: |
-          echo "GLOBALODOCONFIG=$HOME/$ODO_CONFIG_RELATIVE_TO_HOME" >> $GITHUB_ENV
-
-      - name: Create odo preferences file
-        run: |
-          mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
+          echo "GLOBALODOCONFIG=$(pwd)/.github/.odo_config.yaml" >> $GITHUB_ENV
 
       - name: Install latest odo
         run: |
@@ -76,14 +68,9 @@ jobs:
           mkdir -p ~/.asdf/plugins
           cp -r "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Set environment variable
+      - name: Set path to odo config file
         run: |
-          echo "GLOBALODOCONFIG=$HOME/$ODO_CONFIG_RELATIVE_TO_HOME" >> $GITHUB_ENV
-
-      - name: Create odo preferences file
-        run: |
-          mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
+          echo "GLOBALODOCONFIG=$(pwd)/.github/.odo_config.yaml" >> $GITHUB_ENV
 
       - name: Install odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
@@ -132,14 +119,9 @@ jobs:
           mkdir -p ~/.asdf/plugins
           cp -r "$(pwd)" ~/.asdf/plugins/odo
 
-      - name: Set environment variable
+      - name: Set path to odo config file
         run: |
-          echo "GLOBALODOCONFIG=$HOME/$ODO_CONFIG_RELATIVE_TO_HOME" >> $GITHUB_ENV
-
-      - name: Create odo preferences file
-        run: |
-          mkdir -p "$(dirname $GLOBALODOCONFIG)"
-          cp .github/.odo_config.yaml "$GLOBALODOCONFIG"
+          echo "GLOBALODOCONFIG=$(pwd)/.github/.odo_config.yaml" >> $GITHUB_ENV
 
       - name: Download and install odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
