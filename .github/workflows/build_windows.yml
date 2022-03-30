@@ -1,0 +1,153 @@
+name: Build on Windows (WSL)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+defaults:
+  run:
+      shell: wsl-bash {0}
+
+jobs:
+  plugin_test:
+    name: test
+    runs-on: windows-2019
+    steps:
+      - uses: Vampire/setup-wsl@v1
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
+
+      # TODO(rm3l): remove this once asdf-odo repo becomes public
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -snf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Set path to odo config file
+        run: |
+          mkdir -p "${HOME}/.config/odo"
+          cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
+
+      - name: Install latest odo
+        run: |
+          asdf install odo latest
+          asdf global odo latest
+
+      - name: Test odo
+        run: |
+          export GLOBALODOCONFIG="${HOME}/.config/odo/config.yaml"
+          odo version
+
+  plugin_test_git_ref_upstream_repo:
+    name: Git refs from upstream repo
+    strategy:
+      matrix:
+        git_ref: [v2, 7618e8f3e4385bdca620e934c0b27d8fcc878099]
+    runs-on: windows-2019
+    steps:
+      - uses: Vampire/setup-wsl@v1
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
+
+      - name: Install Golang (for installing odo from Git refs)
+        run: |
+          asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+          asdf install golang 1.16.15
+          asdf global golang 1.16.15
+
+      # TODO(rm3l): remove this once asdf-odo repo becomes public
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Set path to odo config file
+        run: |
+          mkdir -p "${HOME}/.config/odo"
+          cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
+
+      - name: Install odo using Git ref (${{ matrix.git_ref }}) from upstream repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+
+      - name: Test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          export GLOBALODOCONFIG="${HOME}/.config/odo/config.yaml"
+          res=$(odo version | grep "($GIT_REF)" || echo false)
+          if [[ "$res" == "false" ]]; then
+            echo "Expected 'odo version' to contain \"($GIT_REF)\", but got $version_output"
+            exit 1
+          fi
+
+  plugin_test_git_ref_fork_repo:
+    name: Git refs from fork
+    strategy:
+      matrix:
+        git_ref: [docs-getting-started-order, 2c6c9f1a418c6620026a1d9908f268083a706e35]
+    runs-on: windows-2019  
+    env:
+      ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
+    steps:
+      - uses: Vampire/setup-wsl@v1
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
+
+      - name: Install Golang (for installing odo from Git refs)
+        run: |
+          asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+          asdf install golang 1.16.15
+          asdf global golang 1.16.15
+
+      # TODO(rm3l): remove this once asdf-odo repo becomes public
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Set path to odo config file
+        run: |
+          mkdir -p "${HOME}/.config/odo"
+          cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
+
+      - name: Download and install odo using Git ref (${{ matrix.git_ref }}) from fork repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
+
+      - name: Test odo using Git ref (${{ matrix.git_ref }}) from fork repo
+        env:
+          GIT_REF: ${{ matrix.git_ref }}
+        run: |
+          export GLOBALODOCONFIG="${HOME}/.config/odo/config.yaml"
+          res=$(odo version | grep "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" || echo false)
+          if [[ "$res" == "false" ]]; then
+            echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})\", but got $version_output"
+            exit 1
+          fi
