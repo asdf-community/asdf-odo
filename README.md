@@ -3,7 +3,7 @@
 # asdf-odo [![Build](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml) [![Lint](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml)
 
 
-[odo](https://odo.dev) plugin for the [asdf version manager](https://asdf-vm.com).
+[asdf](https://asdf-vm.com) plugin for managing runtime versions of [odo](https://odo.dev), the developer-focused CLI for [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [Kubernetes](https://kubernetes.io/).
 
 </div>
 
@@ -17,9 +17,8 @@
 
 # Dependencies
 
-- `bash`, `curl`, `shasum`: generic POSIX utilities
-- `git`
-- Optionally, `unzip` and [Golang](https://go.dev/doc/install) if you want to build and install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang)
+- **Required**: `bash`, `curl`, `shasum`, `git`
+- **Optional**: `unzip` and [Golang](https://go.dev/doc/install) if you want to install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang) ;)
 
 # Install
 
@@ -60,7 +59,7 @@ install & manage versions.
 
 ## How do I install specific releases of odo?
 
-You can first list all installable versions (actually, all GitHub releases) with:
+You can first list all installable versions (actually, all Git tags from the [upstream repository](https://github.com/redhat-developer/odo)) with:
 ```shell
 asdf list-all odo
 ```
@@ -72,7 +71,7 @@ asdf install odo <version>
 
 ## How do I install odo from specific (unreleased) Git commits or branches?
 
-NOTE: As this requires building `odo`, the commands below require `unzip`, `git` and [Golang](https://go.dev/doc/install) to be installed. You may want to install Golang using this other plugin for asdf: [asdf-golang](https://github.com/kennyp/asdf-golang)
+NOTE: This requires downloading and building `odo`. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for asdf: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 ### Using the upstream GitHub repo
 ```shell
@@ -80,7 +79,7 @@ asdf install odo ref:<commit_or_branch>
 ```
 
 ### Using a different fork repo on GitHub
-You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand:
+You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand. It can either be a complete GitHub HTTPS URL, or formatted as follows: `<org_or_user>/<repo>`.
 
 ```shell
 ASDF_GITHUB_REPO_FOR_ODO=<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
