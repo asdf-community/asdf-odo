@@ -71,7 +71,7 @@ asdf install odo <version>
 
 ## How do I install odo from specific (unreleased) Git commits or branches?
 
-NOTE: This requires downloading and building `odo`. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for asdf: [asdf-golang](https://github.com/kennyp/asdf-golang)
+NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for asdf: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 ### Using the upstream GitHub repo
 ```shell
@@ -110,8 +110,8 @@ To reinstall an already installed version of odo, first [uninstall it](README.md
 ## Can I use this plugin on Windows?
 Not officially supported :)
 
-`asdf` itself does not support Windows, per [their FAQ](http://asdf-vm.com/learn-more/faq.html#faq).
-Running it on [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/about) should work however, as written in [this blog](https://www.joshfinnie.com/blog/setting_up_wsl_with_asdf/). But this is not tested/supported.
+`asdf` itself does not support Windows officially, per [their FAQ](http://asdf-vm.com/learn-more/faq.html#faq).
+Running it on [Windows Subsystem for Linux (WSL) 2](https://docs.microsoft.com/en-us/windows/wsl/about) should work however, as written in [this blog](https://www.joshfinnie.com/blog/setting_up_wsl_with_asdf/). But this is not tested/supported.
 
 So if you already have `asdf` running on `WSL 2`, then you should be able to use this plugin as well.
 
