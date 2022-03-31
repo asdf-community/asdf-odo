@@ -12,6 +12,9 @@ defaults:
 
 jobs:
   plugin_test:
+    # Disable job forever, since neither ASDF nor Vampire/setup-wsl support WSL at this time:
+    # http://asdf-vm.com/learn-more/faq.html#faq
+    if: ${{ false }}
     name: test
     runs-on: windows-2019
     steps:
@@ -47,6 +50,9 @@ jobs:
           odo version
 
   plugin_test_git_ref_upstream_repo:
+    # Disable job forever, since neither ASDF nor Vampire/setup-wsl support WSL at this time:
+    # http://asdf-vm.com/learn-more/faq.html#faq
+    if: ${{ false }}
     name: Git refs from upstream repo
     strategy:
       matrix:
@@ -99,6 +105,9 @@ jobs:
           fi
 
   plugin_test_git_ref_fork_repo:
+    # Disable job forever, since neither ASDF nor Vampire/setup-wsl support WSL at this time:
+    # http://asdf-vm.com/learn-more/faq.html#faq
+    if: ${{ false }}
     name: Git refs from fork
     strategy:
       matrix:
