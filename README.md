@@ -104,8 +104,16 @@ asdf uninstall odo <version>
 ```
 
 ## How do I reinstall an already installed version of odo?
-Because of the way asdf works, if you installed odo from a development branch and wish to update it, you need to reinstall that specific version.
+Because of the way `asdf` works, if you installed odo from a development branch and wish to update it, you need to reinstall that specific version.
 To reinstall an already installed version of odo, first [uninstall it](README.md#how-do-i-uninstall-a-given-version-of-odo), and then [install it](README.md#install) again.
+
+## Can I use this plugin on Windows?
+Not officially supported :)
+
+`asdf` itself does not support Windows, per [their FAQ](http://asdf-vm.com/learn-more/faq.html#faq).
+Running it on [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/about) should work however, as written in [this blog](https://www.joshfinnie.com/blog/setting_up_wsl_with_asdf/). But this is not tested/supported.
+
+So if you already have `asdf` running on `WSL 2`, then you should be able to use this plugin as well.
 
 # Contributing
 
