@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/rm3l/asdf-odo/compare/v1.0.0...v1.1.0) (2022-04-01)
+
+
+### Features
+
+* Allow to override the platform and architecture of the odo binary downloaded by this plugin ([7ca1cc6](https://www.github.com/rm3l/asdf-odo/commit/7ca1cc6ee00a5a43581ed55d00d484f6c6c03b02))
+
+
+### Bug Fixes
+
+* Fix download URL for odo binary on Windows ([57de72d](https://www.github.com/rm3l/asdf-odo/commit/57de72d2cc5021884ba6ee6dd7ca6ea1bfddbfcc))
+
 ## 1.0.0 (2022-03-31)
 
 
