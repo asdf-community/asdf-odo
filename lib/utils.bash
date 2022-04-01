@@ -100,16 +100,8 @@ download_release() {
   if [ -n "${ASDF_ODO_BINARY_OS_ARCH:-}" ]; then
     os_arch="$ASDF_ODO_BINARY_OS_ARCH"
   else
-    if [ -n "${ASDF_ODO_BINARY_OS:-}" ]; then
-      os="$ASDF_ODO_BINARY_OS"
-    else
-      os="$(uname_os)"
-    fi
-    if [ -n "${ASDF_ODO_BINARY_ARCH:-}" ]; then
-      arch="$ASDF_ODO_BINARY_ARCH"
-    else
-      arch="$(uname_arch)"
-    fi
+    os=${ASDF_ODO_BINARY_OS:-"$(uname_os)"}
+    arch=${ASDF_ODO_BINARY_ARCH:-"$(uname_arch)"}
     os_arch="${os}-${arch}"
   fi
 
