@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v1
@@ -51,7 +51,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v1
@@ -104,7 +104,7 @@ jobs:
       ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install asdf
         uses: asdf-vm/actions/setup@v1
