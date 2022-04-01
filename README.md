@@ -92,6 +92,38 @@ Or:
 ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
 ```
 
+## Can I override the binary architecture?
+
+The following environment variables can be used to override the `odo` binary that will get downloaded by this plugin.
+Please refer to the [artifacts listing page](https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/odo) for more info about the supported platforms and architectures.
+
+- `ASDF_ODO_BINARY_OS_ARCH`. Defines both the operating system and architecture for the binary. Must follow this pattern: `<platform>-<architecture>`. Examples: `darwin-amd64`, `linux-s390x`
+- `ASDF_ODO_BINARY_OS`. Defines the operating system for the binary. In this case, the plugin will attempt to determine the right architecture. Examples: `darwin`, `windows`, `linux`
+- `ASDF_ODO_BINARY_ARCH`. Defines the architecture for the binary. In this case, the plugin will attempt to determine the right operating system. Examples: `arm64`, `s390x`, `amd64`, ...
+
+Note that, if defined, `ASDF_ODO_BINARY_OS_ARCH` always take precedence over the other two environment variables.
+
+Examples:
+
+```shell
+# ASDF_ODO_BINARY_OS_ARCH allows to override both the operation system and architecture to use
+ASDF_ODO_BINARY_OS_ARCH=darwin-amd64 asdf install odo latest
+```
+
+or
+
+```shell
+# The architecture will be determined automatically
+ASDF_ODO_BINARY_OS=windows asdf install odo latest
+```
+
+or
+
+```shell
+# The operating system will be determined automatically
+ASDF_ODO_BINARY_ARCH=arm64 asdf install odo latest
+```
+
 ## How do I uninstall a given version of odo?
 
 First of all, you can list all installed versions of `odo`, like so:

@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for odo.
 GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
@@ -96,24 +95,38 @@ download_ref() {
 }
 
 download_release() {
-  os=$(uname_os)
-  arch=$(uname_arch)
+  local os_arch os arch version filename url
 
-  local version filename url
+  if [ -n "${ASDF_ODO_BINARY_OS_ARCH:-}" ]; then
+    os_arch="$ASDF_ODO_BINARY_OS_ARCH"
+  else
+    if [ -n "${ASDF_ODO_BINARY_OS:-}" ]; then
+      os="$ASDF_ODO_BINARY_OS"
+    else
+      os="$(uname_os)"
+    fi
+    if [ -n "${ASDF_ODO_BINARY_ARCH:-}" ]; then
+      arch="$ASDF_ODO_BINARY_ARCH"
+    else
+      arch="$(uname_arch)"
+    fi
+    os_arch="${os}-${arch}"
+  fi
+
   version="$1"
   filename="$2"
 
   local binaryExtension
-  if [[ "$os" == "windows" ]]; then
+  if [[ "$os_arch" == "windows-"* ]]; then
     binaryExtension=".exe"
   else
     binaryExtension=""
   fi
 
   # Adapt the release URL convention for odo
-  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-$os-${arch}${binaryExtension}"
+  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-${os_arch}${binaryExtension}"
 
-  echo "* Downloading $TOOL_NAME release $version, for $os/$arch..."
+  echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 
   echo "* Verifying filename integrity..."
