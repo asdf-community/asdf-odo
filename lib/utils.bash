@@ -103,8 +103,15 @@ download_release() {
   version="$1"
   filename="$2"
 
+  local binaryExtension
+  if [[ "$os" == "windows" ]]; then
+    binaryExtension=".exe"
+  else
+    binaryExtension=""
+  fi
+
   # Adapt the release URL convention for odo
-  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-$os-$arch"
+  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-$os-${arch}${binaryExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os/$arch..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
