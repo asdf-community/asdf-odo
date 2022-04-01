@@ -50,6 +50,7 @@ asdf local odo <version>
 # Now odo commands are available
 odo version
 odo help
+# You can also run: asdf exex odo [odo_options]
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) README for more instructions on how to
