@@ -28,7 +28,6 @@ jobs:
         with:
           asdf_branch: v0.9.0
 
-      # TODO(rm3l): remove this once asdf-odo repo becomes public
       - name: Install plugin manually
         run: |
           mkdir -p ~/.asdf/plugins
@@ -75,7 +74,6 @@ jobs:
           asdf install golang 1.16.15
           asdf global golang 1.16.15
 
-      # TODO(rm3l): remove this once asdf-odo repo becomes public
       - name: Install plugin manually
         run: |
           mkdir -p ~/.asdf/plugins
@@ -132,7 +130,6 @@ jobs:
           asdf install golang 1.16.15
           asdf global golang 1.16.15
 
-      # TODO(rm3l): remove this once asdf-odo repo becomes public
       - name: Install plugin manually
         run: |
           mkdir -p ~/.asdf/plugins
