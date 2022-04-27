@@ -115,8 +115,9 @@ download_release() {
     binaryExtension=""
   fi
 
-  # Adapt the release URL convention for odo
-  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${version}/$TOOL_NAME-${os_arch}${binaryExtension}"
+  # versions with a '-' need to be replaced with '~' in the download URL
+  local versionForDl=$(echo "$version" | tr '-' '~')
+  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}/$TOOL_NAME-${os_arch}${binaryExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
