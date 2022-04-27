@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://github.com/rm3l/asdf-odo/compare/v1.1.0...v1.1.1) (2022-04-27)
+
+
+### Bug Fixes
+
+* Fix download URL when versions contain an '-' character ([ee25ac1](https://github.com/rm3l/asdf-odo/commit/ee25ac122a38dd9c17f92462c0501b21a2c8d606))
+
 ## [1.1.0](https://www.github.com/rm3l/asdf-odo/compare/v1.0.0...v1.1.0) (2022-04-01)
 
 
