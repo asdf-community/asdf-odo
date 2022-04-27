@@ -148,6 +148,15 @@ Running it on [Windows Subsystem for Linux (WSL) 2](https://docs.microsoft.com/e
 
 So if you already have `asdf` running on `WSL 2`, then you should be able to use this plugin as well.
 
+## How do I know what this plugin really does?
+
+Set the `ASDF_ODO_VERBOSE` environment variable to `true` prior to running this plugin,
+and you will be able to get more detailed human-readable information. For example:
+
+```shell
+ASDF_ODO_VERBOSE=true asdf install odo 3.0.0-alpha1
+```
+
 # Contributing
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).

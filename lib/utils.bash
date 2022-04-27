@@ -11,6 +11,12 @@ fail() {
   exit 1
 }
 
+log_verbose() {
+  if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
+    echo -e "[debug] $*"
+  fi
+}
+
 uname_os() {
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
 
@@ -82,14 +88,17 @@ download_ref() {
   url="${gh_repo}/archive/${gh_ref}.zip"
   filename="$file_dl_dir/src.zip"
   [ -f "$filename" ] || (
-    echo "* Downloading $TOOL_NAME archive from $url..."
+    echo "* Downloading source code archive for $TOOL_NAME (ref: $gh_ref)..."
+    log_verbose "Download URL" "$url"
     curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
   )
 
   rm -rf "$extraction_dir" "$extraction_tmp_dir"
   mkdir -p "$extraction_dir"
   echo "* Extracting file $filename to $extraction_tmp_dir..."
+  log_verbose "Extracting to $extraction_tmp_dir"
   unzip -q "$filename" -d "$extraction_tmp_dir" || fail "Could not extract file $filename to $extraction_tmp_dir"
+  log_verbose "Moving everything from to ${extraction_tmp_dir}/${TOOL_NAME}-<ref> to ${extraction_dir}"
   mv "${extraction_tmp_dir}/${TOOL_NAME}-"*/* "${extraction_dir}"
   rm -rf "${extraction_tmp_dir}" "$filename"
 }
@@ -99,9 +108,12 @@ download_release() {
 
   if [ -n "${ASDF_ODO_BINARY_OS_ARCH:-}" ]; then
     os_arch="$ASDF_ODO_BINARY_OS_ARCH"
+    log_verbose "Using pre-defined ASDF_ODO_BINARY_OS_ARCH environment variable: " "$ASDF_ODO_BINARY_OS_ARCH"
   else
     os=${ASDF_ODO_BINARY_OS:-"$(uname_os)"}
+    log_verbose "Using Operating System: " "$os"
     arch=${ASDF_ODO_BINARY_ARCH:-"$(uname_arch)"}
+    log_verbose "Using Processor Architecture: " "$arch"
     os_arch="${os}-${arch}"
   fi
 
@@ -120,10 +132,13 @@ download_release() {
   url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}/$TOOL_NAME-${os_arch}${binaryExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
+  log_verbose "Download URL: " "$url"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  log_verbose "Downloaded file $filename: " "$url"
 
   echo "* Verifying filename integrity..."
   shaurl="${url}.sha256"
+  log_verbose "Download URL: " "$shaurl"
   shafilename="$filename.sha256"
   curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
   (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
@@ -139,6 +154,8 @@ install_version() {
   local tool_cmd
   tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 
+  log_verbose "install_path set to " "$install_path"
+
   (
     mkdir -p "$install_path"/bin
     if [[ "$install_type" == "ref" ]]; then
@@ -149,6 +166,7 @@ install_version() {
       else
         git_commit_for_version="${version}@${ASDF_GITHUB_REPO_FOR_ODO}"
       fi
+      log_verbose "Building from source: $ASDF_DOWNLOAD_PATH/src"
       GITCOMMIT="${git_commit_for_version}" make bin
       mv "./$tool_cmd" "$install_path"/bin
     else
@@ -162,6 +180,7 @@ install_version() {
 
   (
     # Assert odo executable exists.
+    log_verbose "Testing that executable expected is really there at $install_path/bin/$tool_cmd"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
 
     local msg
