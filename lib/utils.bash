@@ -42,7 +42,8 @@ uname_arch() {
   echo "$arch"
 }
 
-curl_opts=(-fsSL)
+# Change version number prior to tagging new releases of this plugin
+curl_opts=(-fsSL -A "${ASDF_ODO_USER_AGENT:-"asdf-$TOOL_NAME/1.2.0"}")
 
 # NOTE: You might want to remove this if odo is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
@@ -89,7 +90,7 @@ download_ref() {
   filename="$file_dl_dir/src.zip"
   [ -f "$filename" ] || (
     echo "* Downloading source code archive for $TOOL_NAME (ref: $gh_ref)..."
-    log_verbose "Download URL" "$url"
+    log_verbose "Download URL" "$url" ", using curl options: '${curl_opts[@]}'"
     curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
   )
 
@@ -132,13 +133,13 @@ download_release() {
   url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}/$TOOL_NAME-${os_arch}${binaryExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
-  log_verbose "Download URL: " "$url"
+  log_verbose "Download URL: " "$url" ", using curl options: '${curl_opts[@]}'"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
-  log_verbose "Downloaded file $filename: " "$url"
+  log_verbose "Downloaded file $filename"
 
   echo "* Verifying filename integrity..."
   shaurl="${url}.sha256"
-  log_verbose "Download URL: " "$shaurl"
+  log_verbose "Download URL: " "$shaurl" ", using curl options: '${curl_opts[@]}'"
   shafilename="$filename.sha256"
   curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
   (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
