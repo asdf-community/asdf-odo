@@ -137,12 +137,14 @@ download_release() {
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
   log_verbose "Downloaded file $filename"
 
-  echo "* Verifying filename integrity..."
-  shaurl="${url}.sha256"
-  log_verbose "Download URL: " "$shaurl" ", using curl options: '${curl_opts[@]}'"
-  shafilename="$filename.sha256"
-  curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
-  (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
+  if [[ "${ASDF_ODO_CHECKS_SKIP_FILE_CHECKSUM:-false}" != "true" ]]; then
+    echo "* Verifying filename integrity..."
+    shaurl="${url}.sha256"
+    log_verbose "Download URL: " "$shaurl" ", using curl options: '${curl_opts[@]}'"
+    shafilename="$filename.sha256"
+    curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
+    (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
+  fi
 
   chmod a+x "$filename"
 }
