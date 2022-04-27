@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/rm3l/asdf-odo/compare/v1.1.1...v1.2.0) (2022-04-27)
+
+
+### Features
+
+* Print debug messages if ASDF_ODO_VERBOSE is defined and set to true ([ee7a5d1](https://github.com/rm3l/asdf-odo/commit/ee7a5d17a3ea3f04bad6ff57fb1a307da1bfec00))
+* Skip verifying downloaded file checksum integrity if ASDF_ODO_CHECKS_SKIP_FILE_CHECKSUM is defined and set to true ([fb0db97](https://github.com/rm3l/asdf-odo/commit/fb0db97935639586c7454a6c2e50dc984292cfed))
+
 ### [1.1.1](https://github.com/rm3l/asdf-odo/compare/v1.1.0...v1.1.1) (2022-04-27)
 
 
