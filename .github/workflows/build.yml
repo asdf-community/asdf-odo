@@ -45,6 +45,47 @@ jobs:
       - name: Test odo
         run: odo version
 
+  plugin_test_specific_version:
+    name: Test installing specific version
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        version: ["2.0.0", "3.0.0-alpha1"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.9.0
+
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -sf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Set path to odo config file
+        run: |
+          mkdir -p "${HOME}/.config/odo"
+          cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
+          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> $GITHUB_ENV
+
+      - name: Install odo v${{ matrix.version }}
+        run: |
+          asdf install odo ${{ matrix.version }}
+          asdf global odo ${{ matrix.version }}
+
+      - name: Test odo v${{ matrix.version }}
+        run: |
+          res=$(odo version | grep "(v${{ matrix.version }})" || echo false)
+          if [[ "$res" == "false" ]]; then
+            version_output=$(odo version 2>&1 || true)
+            echo "Expected 'odo version' to contain \"(v${{ matrix.version }})\", but got $version_output"
+            exit 1
+          fi
+
   plugin_test_git_ref_upstream_repo:
     name: Git refs from upstream repo
     strategy:
