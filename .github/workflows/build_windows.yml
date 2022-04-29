@@ -10,6 +10,9 @@ defaults:
   run:
       shell: wsl-bash {0}
 
+env:
+  ASDF_ODO_VERBOSE: "true"
+
 jobs:
   plugin_test:
     # Disable job forever, since neither ASDF nor Vampire/setup-wsl support WSL at this time:

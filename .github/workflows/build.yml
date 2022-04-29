@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+env:
+  ASDF_ODO_VERBOSE: "true"
+
 jobs:
   plugin_test:
     name: test
