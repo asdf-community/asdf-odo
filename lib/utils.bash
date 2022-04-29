@@ -89,7 +89,7 @@ download_ref() {
   filename="$file_dl_dir/src.zip"
   [ -f "$filename" ] || (
     echo "* Downloading source code archive for $TOOL_NAME (ref: $gh_ref)..."
-    log_verbose "Download URL" "$url" ", using curl options: '${curl_opts[@]}'"
+    log_verbose "Download URL $url, using curl options: '${curl_opts[@]}'"
     curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
   )
 
@@ -108,12 +108,12 @@ download_release() {
 
   if [ -n "${ASDF_ODO_BINARY_OS_ARCH:-}" ]; then
     os_arch="$ASDF_ODO_BINARY_OS_ARCH"
-    log_verbose "Using pre-defined ASDF_ODO_BINARY_OS_ARCH environment variable: " "$ASDF_ODO_BINARY_OS_ARCH"
+    log_verbose "Using pre-defined ASDF_ODO_BINARY_OS_ARCH environment variable: $ASDF_ODO_BINARY_OS_ARCH"
   else
     os=${ASDF_ODO_BINARY_OS:-"$(uname_os)"}
-    log_verbose "Using Operating System: " "$os"
+    log_verbose "Using Operating System: $os"
     arch=${ASDF_ODO_BINARY_ARCH:-"$(uname_arch)"}
-    log_verbose "Using Processor Architecture: " "$arch"
+    log_verbose "Using Processor Architecture: $arch"
     os_arch="${os}-${arch}"
   fi
 
@@ -134,14 +134,14 @@ download_release() {
   url="${urlForVersion}/${toolBinaryNameWithExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
-  log_verbose "Download URL: " "$url" ", using curl options: '${curl_opts[@]}'"
+  log_verbose "Download URL: $url, using curl options: '${curl_opts[@]}'"
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
-  log_verbose "Downloaded file $filename"
+  log_verbose "Downloaded file and saved it to $filename"
 
   if [[ "${ASDF_ODO_CHECKS_SKIP_FILE_CHECKSUM:-false}" != "true" ]]; then
     echo "* Verifying filename integrity..."
     shaurl="${url}.sha256"
-    log_verbose "Download URL: " "$shaurl" ", using curl options: '${curl_opts[@]}'"
+    log_verbose "Download URL: $shaurl, using curl options: '${curl_opts[@]}'"
     shafilename="$filename.sha256"
     curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
     # Issue with empty checksum file: https://github.com/rm3l/asdf-odo/issues/10
@@ -165,7 +165,7 @@ install_version() {
   local tool_cmd
   tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 
-  log_verbose "install_path set to " "$install_path"
+  log_verbose "install_path set to $install_path"
 
   (
     mkdir -p "$install_path"/bin
