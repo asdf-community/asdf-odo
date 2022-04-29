@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://github.com/rm3l/asdf-odo/compare/v1.2.0...v1.2.1) (2022-04-29)
+
+
+### Bug Fixes
+
+* **#10:** Fallback to using the parent sha256sum.txt file if the version-specific checksum file is empty ([d66d369](https://github.com/rm3l/asdf-odo/commit/d66d36918cc735e3099d179a4293dd403f469b96))
+
 ## [1.2.0](https://github.com/rm3l/asdf-odo/compare/v1.1.1...v1.2.0) (2022-04-27)
 
 
