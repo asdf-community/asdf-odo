@@ -6,10 +6,6 @@ on:
       - main
   pull_request:
 
-env:
-  # Change version number prior to tagging new releases of this plugin
-  ASDF_ODO_USER_AGENT: "asdf-odo/1.3.0-dev (CI)"
-
 jobs:
   plugin_test:
     name: test

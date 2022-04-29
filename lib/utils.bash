@@ -42,8 +42,7 @@ uname_arch() {
   echo "$arch"
 }
 
-# Change version number prior to tagging new releases of this plugin
-curl_opts=(-fsSL -A "${ASDF_ODO_USER_AGENT:-"asdf-$TOOL_NAME/1.3.0-dev"}")
+curl_opts=(-fsSL -A "\"asdf-$TOOL_NAME ($(uname_os)/$(uname_arch))\"")
 
 # NOTE: You might want to remove this if odo is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
