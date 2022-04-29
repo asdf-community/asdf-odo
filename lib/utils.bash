@@ -129,7 +129,9 @@ download_release() {
 
   # versions with a '-' need to be replaced with '~' in the download URL
   local versionForDl=$(echo "$version" | tr '-' '~')
-  url="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}/$TOOL_NAME-${os_arch}${binaryExtension}"
+  local urlForVersion="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}"
+  local toolBinaryNameWithExtension="$TOOL_NAME-${os_arch}${binaryExtension}"
+  url="${urlForVersion}/${toolBinaryNameWithExtension}"
 
   echo "* Downloading $TOOL_NAME release $version, for $os_arch..."
   log_verbose "Download URL: " "$url" ", using curl options: '${curl_opts[@]}'"
@@ -142,6 +144,13 @@ download_release() {
     log_verbose "Download URL: " "$shaurl" ", using curl options: '${curl_opts[@]}'"
     shafilename="$filename.sha256"
     curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
+    # Issue with empty checksum file: https://github.com/rm3l/asdf-odo/issues/10
+    [ -s "$shafilename" ] ||
+      (log_verbose "Checksum file is empty => fallback to the root sha256sum.txt file" &&
+        curl "${curl_opts[@]}" "${urlForVersion}/sha256sum.txt" |
+        grep "$toolBinaryNameWithExtension" |
+          grep -Ev "(\.tar\.gz|\.zip)" |
+          awk '{print $1}' >"$shafilename")
     (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
   fi
 
