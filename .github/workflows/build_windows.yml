@@ -57,6 +57,7 @@ jobs:
     if: ${{ false }}
     name: Git refs from upstream repo
     strategy:
+      fail-fast: false
       matrix:
         git_ref: [v2, 7618e8f3e4385bdca620e934c0b27d8fcc878099]
     runs-on: windows-2019
@@ -112,6 +113,7 @@ jobs:
     if: ${{ false }}
     name: Git refs from fork
     strategy:
+      fail-fast: false
       matrix:
         git_ref: [docs-getting-started-order, 2c6c9f1a418c6620026a1d9908f268083a706e35]
     runs-on: windows-2019  

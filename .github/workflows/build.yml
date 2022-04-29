@@ -13,6 +13,7 @@ jobs:
   plugin_test:
     name: test
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -47,6 +48,7 @@ jobs:
   plugin_test_specific_version:
     name: Test installing specific version
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         version: ["2.0.0", "3.0.0-alpha1"]
@@ -88,6 +90,7 @@ jobs:
   plugin_test_git_ref_upstream_repo:
     name: Git refs from upstream repo
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         git_ref: [v2, 7618e8f3e4385bdca620e934c0b27d8fcc878099]
@@ -139,6 +142,7 @@ jobs:
   plugin_test_git_ref_fork_repo:
     name: Git refs from fork
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         git_ref: [docs-getting-started-order, 2c6c9f1a418c6620026a1d9908f268083a706e35]
