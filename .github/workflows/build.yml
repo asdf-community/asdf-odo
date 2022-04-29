@@ -91,6 +91,7 @@ jobs:
         run: |
           res=$(odo version | grep "($GIT_REF)" || echo false)
           if [[ "$res" == "false" ]]; then
+            version_output=$(odo version 2>&1 || true)
             echo "Expected 'odo version' to contain \"($GIT_REF)\", but got $version_output"
             exit 1
           fi
@@ -143,6 +144,7 @@ jobs:
         run: |
           res=$(odo version | grep "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" || echo false)
           if [[ "$res" == "false" ]]; then
+            version_output=$(odo version 2>&1 || true)
             echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})\", but got $version_output"
             exit 1
           fi
