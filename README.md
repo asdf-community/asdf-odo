@@ -27,6 +27,14 @@ You first need to install and configure [asdf](https://asdf-vm.com/guide/getting
 After that, you can install this plugin:
 
 ```shell
+# The shorthand command works because this plugin is referenced
+# in the asdf-plugins repository: https://github.com/asdf-vm/asdf-plugins
+asdf plugin add odo
+```
+
+or using the full repo URL:
+
+```shell
 asdf plugin add odo https://github.com/rm3l/asdf-odo.git
 ```
 
