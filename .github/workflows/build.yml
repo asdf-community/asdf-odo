@@ -246,7 +246,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        git_ref: [docs-getting-started-order, 2c6c9f1a418c6620026a1d9908f268083a706e35]
+        git_ref:
+        - '2c6c9f1a418c6620026a1d9908f268083a706e35'
+        - 'docs-getting-started-order'
+        # cf #2: Could not install odo from a branch that contains a / in its name
+        - 'asdf-odo/2-could-not-install-odo-from-a-branch-that-contains-a-in-its-name'
     runs-on: ${{ matrix.os }}
     env:
       ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
