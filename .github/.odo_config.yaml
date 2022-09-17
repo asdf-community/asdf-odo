@@ -1,3 +1,4 @@
+# MIT License
 kind: Preference
 apiversion: odo.dev/v1alpha1
 OdoSettings:
