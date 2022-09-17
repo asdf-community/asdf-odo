@@ -14,7 +14,7 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 source "${plugin_dir}/lib/utils.bash"
 
 if [ "${GLOBALODOCONFIG:-}" = "" ]; then
-  export GLOBALODOCONFIG="${XDG_CONFIG_HOME:-${HOME}/.config}/odo/config.yaml"
+  export GLOBALODOCONFIG="${XDG_CONFIG_HOME:-"${HOME}/.config"}/odo/config.yaml"
 fi
 
 mkdir -p "$(dirname "${GLOBALODOCONFIG}")"
