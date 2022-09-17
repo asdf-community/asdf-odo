@@ -12,7 +12,7 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 source "${plugin_dir}/lib/utils.bash"
 
 echo
-bold "$(underline "# Useful Links")"
+bold "$(underline "Useful Links")"
 cat <<-EOM
 Plugin: https://github.com/rm3l/asdf-odo
 odo: https://odo.dev/

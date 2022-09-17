@@ -11,4 +11,4 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=../lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
-bold "asdf plugin for managing runtime versions of $(blue "odo")$(bold ", the developer-focused CLI for fast & iterative application development on OpenShift and Kubernetes")"
+bold "asdf plugin for managing runtime versions of $(blue odo)$(bold , the developer-focused CLI for fast \& iterative application development on OpenShift and Kubernetes)"
