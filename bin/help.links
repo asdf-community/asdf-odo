@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
+  set -x
+fi
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/utils.bash
+source "${plugin_dir}/lib/utils.bash"
+
+echo
+bold "$(underline "Useful Links")"
+cat <<-EOM
+Plugin: https://github.com/rm3l/asdf-odo
+odo: https://odo.dev/
+Kubernetes: https://kubernetes.io/
+OpenShift: https://www.redhat.com/en/technologies/cloud-computing/openshift
+curl: https://curl.se/
+EOM
+if [[ "${ASDF_INSTALL_TYPE:-}" == "ref" ]]; then
+cat <<-EOM
+Go: https://go.dev/
+EOM
+fi
