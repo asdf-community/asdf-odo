@@ -16,14 +16,15 @@ source "${plugin_dir}/lib/utils.bash"
 echo
 bold "$(underline "# Useful Links")"
 cat <<-EOM
-Plugin: https://github.com/rm3l/asdf-odo
-odo: https://odo.dev/
-Kubernetes: https://kubernetes.io/
-OpenShift: https://www.redhat.com/en/technologies/cloud-computing/openshift
-curl: https://curl.se/
+- Plugin: https://github.com/rm3l/asdf-odo
+- odo: https://odo.dev/
+- Kubernetes: https://kubernetes.io/
+- OpenShift: https://www.redhat.com/en/technologies/cloud-computing/openshift
+- curl: https://curl.se/
 EOM
+
 if [[ "${ASDF_INSTALL_TYPE:-}" == "ref" ]]; then
-cat <<-EOM
-Go: https://go.dev/
+  cat <<-EOM
+- Go: https://go.dev/
 EOM
 fi

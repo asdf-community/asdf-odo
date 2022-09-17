@@ -15,19 +15,13 @@ source "${plugin_dir}/lib/utils.bash"
 
 echo
 bold "$(underline "# Dependencies")"
-cat <<-EOM
-curl
-EOM
+echo "- curl"
 
 if [[ "${ASDF_INSTALL_TYPE:-}" == "ref" ]]; then
-cat <<-EOM
-unzip
-git
-go
-make
-EOM
+  echo "- git"
+  echo "- go"
+  echo "- make"
+  echo "- unzip"
 else
-cat <<-EOM
-shasum
-EOM
+  echo "- shasum"
 fi
