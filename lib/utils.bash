@@ -11,7 +11,17 @@ TOOL_NAME="odo"
 TOOL_TEST="odo version"
 
 ansi() {
-  echo -e "\e[${1}m${*:2}\e[0m"
+  if [ -n "$TERM" ]; then
+    # see if terminal supports colors...
+    local ncolors=$(tput colors)
+    if test -n "$ncolors" && test $ncolors -ge 8; then
+      echo -e "\e[${1}m${*:2}\e[0m"
+    else
+      echo -e ${*:2}
+    fi
+  else
+    echo -e ${*:2}
+  fi
 }
 
 bold() {
