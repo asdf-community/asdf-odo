@@ -48,6 +48,32 @@ jobs:
       - name: Test odo
         run: odo version
 
+  plugin_list-all_test:
+    name: list-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v1
+        with:
+          asdf_branch: v0.10.2
+
+      - name: Install plugin manually
+        run: |
+          mkdir -p ~/.asdf/plugins
+          ln -snf "$(pwd)" ~/.asdf/plugins/odo
+
+      - name: Check that list-all does not include a non-installable tag
+        run: |
+          ret=$(asdf list-all odo | grep -F "2.0.0-beta-1" || echo pass)
+          if [[ "$ret" != "pass" ]]; then
+            echo "ret: $ret"
+            echo "unexpected version found: 2.0.0-beta-1, which is not installable"
+            exit 1
+          fi
+
   plugin_test_specific_version:
     name: Test installing specific version
     strategy:

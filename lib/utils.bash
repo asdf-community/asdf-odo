@@ -105,9 +105,15 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # By default we simply list the tag names from GitHub releases.
-  # Change this function if odo has other means of determining installable versions.
-  list_github_tags
+  # Installable versions are the ones users can actually download from Red Hat Content Gateway
+  local tmpfile=$(mktemp /tmp/asdf-odo-list-installable-versions.XXXXXX)
+  local versionsUrl="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/"
+  curl "${curl_opts[@]}" -o "$tmpfile" -C - "$versionsUrl" || fail "Could not list installable versions using $versionsUrl"
+  list_github_tags |
+    tr '-' '~' |
+    awk -v "installable_versions=$tmpfile" '{if (system("grep -Fq $versionsUrl/v"$1 OFS installable_versions) == 0){print $1}}' |
+    tr '~' '-'
+  rm -f "$tmpfile"
 }
 
 download_ref() {
