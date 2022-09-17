@@ -24,7 +24,7 @@ cyan=""
 white=""
 
 # see if terminal supports colors...
-ncolors=$(tput colors || false)
+ncolors=$(tput colors)
 if test -n "$ncolors" && test $ncolors -ge 8; then
   bold="$(tput bold)"
   underline="$(tput smul)"
