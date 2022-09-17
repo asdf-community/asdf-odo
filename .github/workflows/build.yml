@@ -127,8 +127,8 @@ jobs:
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          asdf install odo git-ref:$GIT_REF
-          asdf global odo git-ref:$GIT_REF
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
 
       - name: Test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
@@ -154,7 +154,7 @@ jobs:
         - 'asdf-odo/2-could-not-install-odo-from-a-branch-that-contains-a-in-its-name'
     runs-on: ${{ matrix.os }}
     env:
-      ASDF_TOOL_REPO: "https://github.com/rm3l/odo"
+      ASDF_GITHUB_REPO_FOR_ODO: "https://github.com/rm3l/odo"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -185,16 +185,16 @@ jobs:
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          asdf install odo git-ref:$GIT_REF
-          asdf global odo git-ref:$GIT_REF
+          asdf install odo ref:$GIT_REF
+          asdf global odo ref:$GIT_REF
 
       - name: Test odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          res=$(odo version | grep -F "(${GIT_REF}@${ASDF_TOOL_REPO})" || echo false)
+          res=$(odo version | grep -F "(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})" || echo false)
           if [[ "$res" == "false" ]]; then
             version_output=$(odo version 2>&1 || true)
-            echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_TOOL_REPO})\", but got $version_output"
+            echo "Expected 'odo version' to contain \"(${GIT_REF}@${ASDF_GITHUB_REPO_FOR_ODO})\", but got $version_output"
             exit 1
           fi

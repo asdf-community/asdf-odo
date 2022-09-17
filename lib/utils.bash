@@ -7,15 +7,6 @@ GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
 
-# IFS=':' read -r -a version_info <<<"$full_version"
-# if [ "${version_info[0]}" = "git-ref" || "${version_info[0]}" = "ref" ]; then
-#   export ASDF_INSTALL_TYPE="ref"
-#   export ASDF_INSTALL_VERSION=""
-# fi
-# if [[ "$ASDF_INSTALL_VERSION" == "git-ref:*" ]]; then
-  
-# fi
-
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
   exit 1
@@ -98,7 +89,7 @@ download_ref() {
   url="${gh_repo}/archive/${gh_ref}.zip"
   filename="$file_dl_dir/src.zip"
   [ -f "$filename" ] || (
-    echo "* Downloading source code archive for $TOOL_NAME (git-ref: $gh_ref)..."
+    echo "* Downloading source code archive for $TOOL_NAME (ref: $gh_ref)..."
     log_verbose "Download URL $url, using curl options: '${curl_opts[@]}'"
     curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
   )
@@ -182,10 +173,10 @@ install_version() {
     if [[ "$install_type" == "ref" ]]; then
       cd "$ASDF_DOWNLOAD_PATH/src"
       local git_commit_for_version
-      if [[ "${ASDF_TOOL_REPO:-}" == "" ]]; then
+      if [[ "${ASDF_GITHUB_REPO_FOR_ODO:-}" == "" ]]; then
         git_commit_for_version="${version}"
       else
-        git_commit_for_version="${version}@${ASDF_TOOL_REPO}"
+        git_commit_for_version="${version}@${ASDF_GITHUB_REPO_FOR_ODO}"
       fi
       log_verbose "Building from source: $ASDF_DOWNLOAD_PATH/src"
       GITCOMMIT="${git_commit_for_version}" make bin
@@ -207,7 +198,7 @@ install_version() {
     local msg
     msg="$TOOL_NAME $version installation was successful! Run: asdf <global | local> $TOOL_NAME"
     if [[ "$install_type" == "ref" ]]; then
-      echo "$msg git-ref:${version}"
+      echo "$msg ref:${version}"
     else
       echo "$msg ${version}"
     fi
