@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
+  set -x
+fi
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/utils.bash
+source "${plugin_dir}/lib/utils.bash"
+
+echo
+bold "$(underline "Dependencies")"
+cat <<-EOM
+curl
+EOM
+
+if [[ "${ASDF_INSTALL_TYPE:-}" == "ref" ]]; then
+cat <<-EOM
+unzip
+git
+go
+make
+EOM
+else
+cat <<-EOM
+shasum
+EOM
+fi

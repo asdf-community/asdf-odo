@@ -10,14 +10,42 @@ GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
 
+ansi() {
+  echo -e "\e[${1}m${*:2}\e[0m"
+}
+
+bold() {
+  ansi 1 "$@"
+}
+
+italic() {
+  ansi 3 "$@"
+}
+
+strikethrough() {
+  ansi 9 "$@"
+}
+
+underline() {
+  ansi 4 "$@"
+}
+
+blue() {
+  ansi 34 "$@"
+}
+
+red() {
+  ansi 31 "$@"
+}
+
 fail() {
-  echo -e "asdf-$TOOL_NAME: $*"
+  red "asdf-$TOOL_NAME: $*"
   exit 1
 }
 
 log_verbose() {
   if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
-    echo -e "[debug] $*"
+    italic "[debug] $*"
   fi
 }
 
