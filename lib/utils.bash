@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
+  set -x
+fi
+
 GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
