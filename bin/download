@@ -13,7 +13,7 @@ source "${plugin_dir}/lib/utils.bash"
 
 if [[ "$ASDF_INSTALL_TYPE" == "ref" ]]; then
   dl_dir="$ASDF_DOWNLOAD_PATH"
-  gh_repo="${ASDF_GITHUB_REPO_FOR_ODO:-$GH_REPO}"
+  gh_repo="${ASDF_TOOL_REPO:-$GH_REPO}"
   gh_ref="${ASDF_INSTALL_VERSION}"
   download_ref "$dl_dir" "$gh_repo" "$gh_ref"
 else

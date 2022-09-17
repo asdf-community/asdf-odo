@@ -84,20 +84,20 @@ NOTE: This will download and build `odo` on your machine. Make sure you installe
 
 ### Using the upstream GitHub repo
 ```shell
-asdf install odo ref:<commit_or_branch>
+asdf install odo git-ref:<commit_or_branch>
 ```
 
 ### Using a different fork repo on GitHub
-You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand. It can either be a complete GitHub HTTPS URL, or formatted as follows: `<org_or_user>/<repo>`.
+You need to set the `ASDF_TOOL_REPO` environment variable beforehand. It can either be a complete GitHub HTTPS URL, or formatted as follows: `<org_or_user>/<repo>`.
 
 ```shell
-ASDF_GITHUB_REPO_FOR_ODO=<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
+ASDF_TOOL_REPO=<org_or_user>/<repo> asdf install odo git-ref:<commit_or_branch>
 ```
 
 Or:
 
 ```shell
-ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
+ASDF_TOOL_REPO=https://github.com/<org_or_user>/<repo> asdf install odo git-ref:<commit_or_branch>
 ```
 
 ## Can I override the binary architecture?
