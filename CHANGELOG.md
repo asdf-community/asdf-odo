@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/rm3l/asdf-odo/compare/v1.2.1...v1.3.0) (2022-09-17)
+
+
+### Features
+
+* Implement 'asdf help odo' ([5455cfd](https://github.com/rm3l/asdf-odo/commit/5455cfd351a0170f9d3575b67e51d511b7a3c8a8))
+* Setup environment for execution of odo ([e3d83c1](https://github.com/rm3l/asdf-odo/commit/e3d83c1dc049abaab5032d1169521d3f4d8ef5f3))
+
+
+### Bug Fixes
+
+* **#27:** Make list-all return only versions that have corresponding binaries available ([d4673f1](https://github.com/rm3l/asdf-odo/commit/d4673f18bba6c483e077b1bd37c38bf2d493c5f1))
+
 ### [1.2.1](https://github.com/rm3l/asdf-odo/compare/v1.2.0...v1.2.1) (2022-04-29)
 
 
