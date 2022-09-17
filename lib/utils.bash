@@ -10,32 +10,58 @@ GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
 
+bold=""
+underline=""
+standout=""
+normal=""
+black=""
+red=""
+green=""
+yellow=""
+blue=""
+magenta=""
+cyan=""
+white=""
+
+# see if terminal supports colors...
+ncolors=$(tput colors)
+if test -n "$ncolors" && test $ncolors -ge 8; then
+  bold="$(tput bold)"
+  underline="$(tput smul)"
+  standout="$(tput smso)"
+  normal="$(tput sgr0)"
+  black="$(tput setaf 0)"
+  red="$(tput setaf 1)"
+  green="$(tput setaf 2)"
+  yellow="$(tput setaf 3)"
+  blue="$(tput setaf 4)"
+  magenta="$(tput setaf 5)"
+  cyan="$(tput setaf 6)"
+  white="$(tput setaf 7)"
+fi
+
 ansi() {
   echo -e "\e[${1}m${*:2}\e[0m"
 }
 
 bold() {
-  ansi 1 "$@"
+  echo "${bold}$@${normal}"
 }
 
-italic() {
-  ansi 3 "$@"
-}
-
-strikethrough() {
-  ansi 9 "$@"
+standout() {
+  echo "${standout}$@${normal}"
 }
 
 underline() {
-  ansi 4 "$@"
+  echo "${underline}$@${normal}"
 }
 
 blue() {
-  ansi 34 "$@"
+  echo "${blue}$@${normal}"
 }
 
 red() {
-  ansi 31 "$@"
+  echo "${red}$@${normal}"
 }
 
 fail() {
@@ -45,7 +71,7 @@ fail() {
 
 log_verbose() {
   if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
-    italic "[debug] $*"
+    standout "[debug] $*"
   fi
 }
 
