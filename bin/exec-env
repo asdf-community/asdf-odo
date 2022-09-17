@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# MIT License
+
+set -euo pipefail
+if [[ "${ASDF_ODO_VERBOSE:-false}" == "true" ]]; then
+  set -x
+fi
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/utils.bash
+source "${plugin_dir}/lib/utils.bash"
+
+if [ "${GLOBALODOCONFIG:-}" = "" ]; then
+  export GLOBALODOCONFIG="${XDG_CONFIG_HOME:-${HOME}/.config}/odo/config.yaml"
+fi
+
+mkdir -p "$(dirname "${GLOBALODOCONFIG}")"
