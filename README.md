@@ -17,7 +17,7 @@
 
 # Dependencies
 
-- **Required**: `bash`, `curl`, `shasum`, `git`
+- **Required**: `bash`, `curl`, `shasum`
 - **Optional**: `unzip` and [Golang](https://go.dev/doc/install) if you want to install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang) ;)
 
 # Install
@@ -80,7 +80,7 @@ asdf install odo <version>
 
 ## How do I install odo from specific (unreleased) Git commits or branches?
 
-NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for `asdf`: [asdf-golang](https://github.com/kennyp/asdf-golang)
+NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip`, `git` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for `asdf`: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 ### Using the upstream GitHub repo
 ```shell
@@ -161,7 +161,7 @@ So if you already have `asdf` running on `WSL 2`, you should be able to use this
 ## How do I know what this plugin really does?
 
 Set the `ASDF_ODO_VERBOSE` environment variable to `true` prior to running this plugin,
-and you will be able to get more detailed human-readable information. For example:
+and you will be able to get more detailed information. For example:
 
 ```shell
 ASDF_ODO_VERBOSE=true asdf install odo 2.5.1
@@ -169,7 +169,7 @@ ASDF_ODO_VERBOSE=true asdf install odo 2.5.1
 
 # Contributing
 
-Contributions of any kind welcome! See the [contributing guide](contributing.md).
+Contributions of any kind are welcome! See the [contributing guide](contributing.md).
 
 [Thanks to these contributors](https://github.com/rm3l/asdf-odo/graphs/contributors)!
 
