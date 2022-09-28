@@ -164,7 +164,7 @@ Set the `ASDF_ODO_VERBOSE` environment variable to `true` prior to running this 
 and you will be able to get more detailed human-readable information. For example:
 
 ```shell
-ASDF_ODO_VERBOSE=true asdf install odo 3.0.0-alpha1
+ASDF_ODO_VERBOSE=true asdf install odo 2.5.1
 ```
 
 # Contributing
