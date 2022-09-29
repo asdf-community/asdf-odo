@@ -67,13 +67,13 @@ install & manage versions.
 
 # Additional commands
 
-This plugin defines additional `asdf` commands to provide utilities that help manage `odo`.
+This plugin defines additional `asdf` commands with helpers that extend `odo`.
 
 ## Preferences management
 
-This is the output of `asdf odo preference help`:
+This is availabe via the `asdf odo preference` command:
 
-```
+```sh
 asdf odo preference COMMAND
 
 COMMANDS
@@ -84,6 +84,8 @@ COMMANDS
    help     -   Shows this help.
 
 ```
+
+NOTE:  `odo` already comes bundled with a [`preference` command](https://odo.dev/docs/command-reference/preference), but the additional commands defined here aim at extending it a little bit.
 
 # FAQ
 
