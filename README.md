@@ -82,7 +82,7 @@ asdf install odo <version>
 
 NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip`, `git` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for `asdf`: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
-### Using the upstream GitHub repo
+### Using the upstream `odo` repo
 ```shell
 asdf install odo ref:<commit_or_branch>
 ```
@@ -91,13 +91,15 @@ asdf install odo ref:<commit_or_branch>
 You need to set the `ASDF_GITHUB_REPO_FOR_ODO` environment variable beforehand. It can either be a complete GitHub HTTPS URL, or formatted as follows: `<org_or_user>/<repo>`.
 
 ```shell
-ASDF_GITHUB_REPO_FOR_ODO=<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
+ASDF_GITHUB_REPO_FOR_ODO=<org_or_user>/<repo> \
+  asdf install odo ref:<commit_or_branch>
 ```
 
 Or:
 
 ```shell
-ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/<repo> asdf install odo ref:<commit_or_branch>
+ASDF_GITHUB_REPO_FOR_ODO=https://github.com/<org_or_user>/<repo> \
+  asdf install odo ref:<commit_or_branch>
 ```
 
 ## Can I override the binary architecture?
@@ -164,7 +166,7 @@ Set the `ASDF_ODO_VERBOSE` environment variable to `true` prior to running this 
 and you will be able to get more detailed information. For example:
 
 ```shell
-ASDF_ODO_VERBOSE=true asdf install odo 2.5.1
+ASDF_ODO_VERBOSE=true asdf install odo 3.0.0
 ```
 
 # Contributing
