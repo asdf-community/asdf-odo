@@ -18,7 +18,7 @@
 
 # Dependencies
 
-- **Required**: `bash`, `curl`, `shasum`
+- **Required**: `bash`, `awk`, `curl`, `shasum`
 - **Optional**: `unzip` and [Golang](https://go.dev/doc/install) if you want to install unreleased development branches or specific commits. You may want to install Golang using this other asdf plugin: [asdf-golang](https://github.com/kennyp/asdf-golang) ;)
 
 # Install
@@ -103,7 +103,8 @@ asdf install odo <version>
 
 ## How do I install odo from specific (unreleased) Git commits or branches?
 
-NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip`, `git` and [Golang](https://go.dev/doc/install). You may want to install Golang using this other plugin for `asdf`: [asdf-golang](https://github.com/kennyp/asdf-golang)
+NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip`, `git`, [Golang](https://go.dev/doc/install) and `make`.
+You may want to install Golang using this other plugin for `asdf`: [asdf-golang](https://github.com/kennyp/asdf-golang)
 
 ### Using the upstream `odo` repo
 ```shell
