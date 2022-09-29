@@ -64,6 +64,26 @@ odo help
 Check [asdf](https://github.com/asdf-vm/asdf) README for more instructions on how to
 install & manage versions.
 
+# Additional commands
+
+This plugin defines additional `asdf` commands to provide utilities that help manage `odo`.
+
+## Preferences management
+
+This is the output of `asdf odo preference help`:
+
+```
+asdf odo preference COMMAND
+
+COMMANDS
+   which    -   Shows the path to the file where the current odo stores its settings.
+   reset    -   Resets the odo settings to their default values.
+                This essentially removes the current preferences file,
+                so subsequent odo commands can recreate it.
+   help     -   Shows this help.
+
+```
+
 # FAQ
 
 ## How do I install specific releases of odo?
