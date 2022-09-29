@@ -11,7 +11,7 @@
 
 - [Dependencies](#dependencies)
 - [Install](#install)
-- [Additional Commands](#additional-commands)
+- [Additional commands](#additional-commands)
 - [FAQ](#FAQ)
 - [Contributing](#contributing)
 - [License](#license)
