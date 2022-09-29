@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/rm3l/asdf-odo/compare/v1.3.0...v2.0.0) (2022-09-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename default odo preferences file to `${XDG_CONFIG_HOME:-"~/.config"}/odo/settings.yaml`
+
+### Features
+
+* Add new extension command for asdf: asdf odo preference ([e311228](https://github.com/rm3l/asdf-odo/commit/e311228b37948dba05a097ea758e7d3c1dba6700))
+
+
+### Code Refactoring
+
+* Rename default odo preferences file to `${XDG_CONFIG_HOME:-"~/.config"}/odo/settings.yaml` ([e5c13c4](https://github.com/rm3l/asdf-odo/commit/e5c13c493bc076ba073d1765c2121d6e0b1cbf44))
+
 ## [1.3.0](https://github.com/rm3l/asdf-odo/compare/v1.2.1...v1.3.0) (2022-09-17)
 
 
