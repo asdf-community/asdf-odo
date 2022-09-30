@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/rm3l/asdf-odo/compare/v2.0.0...v3.0.0) (2022-09-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename `asdf odo preference` into `asdf odo settings` to avoid confusion
+
+### Code Refactoring
+
+* Rename `asdf odo preference` into `asdf odo settings` to avoid confusion ([a440166](https://github.com/rm3l/asdf-odo/commit/a440166288f03941a870d5b5bcd659236a237ebb))
+
 ## [2.0.0](https://github.com/rm3l/asdf-odo/compare/v1.3.0...v2.0.0) (2022-09-29)
 
 
