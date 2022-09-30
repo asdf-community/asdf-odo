@@ -13,12 +13,12 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 source "${plugin_dir}/utils.bash"
 
 HELP="
-asdf odo preference COMMAND
+asdf odo settings COMMAND
 
 COMMANDS
    which    -   Shows the path to the file where the current odo stores its settings.
    reset    -   Resets the odo settings to their default values.
-                This essentially removes the current preferences file,
+                This essentially removes the current settings file,
                 so subsequent odo commands can recreate it.
    help     -   Shows this help.
 "
