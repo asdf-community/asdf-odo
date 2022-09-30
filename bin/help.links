@@ -31,7 +31,7 @@ fi
 echo
 bold "$(underline "# Additional commands")"
 cat <<-EOM
-- asdf odo preference which: Shows the path to the file where the current odo stores its settings.
-- asdf odo preference reset: Resets the odo settings to their default values. This essentially removes the current preferences file, so the next odo command can recreate it.
-- asdf odo preference help: Shows help of this custom command.
+- asdf odo settings which: Shows the path to the file where the current odo stores its settings.
+- asdf odo settings reset: Resets the odo settings to their default values. This essentially removes the current settings file, so the next odo command can recreate it.
+- asdf odo settings help: Shows help of this custom command.
 EOM

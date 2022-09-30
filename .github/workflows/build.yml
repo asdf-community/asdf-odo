@@ -73,8 +73,8 @@ jobs:
             exit 1
           fi
 
-  plugin_extension_preference_tests:
-    name: asdf odo preference
+  plugin_extension_settings_tests:
+    name: asdf odo settings
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -95,54 +95,54 @@ jobs:
           asdf install odo latest
           asdf global odo latest
 
-      - name: Check that 'asdf odo preference which' works correctly even if GLOBALODOCONFIG preference is not set
+      - name: Check that 'asdf odo settings which' works correctly even if GLOBALODOCONFIG settings is not set
         run: |
           unset GLOBALODOCONFIG
-          ret=$(asdf odo preference which)
+          ret=$(asdf odo settings which)
           if [[ "$ret" != "${HOME}/.config/odo/settings.yaml" ]]; then
             echo "ret: $ret"
-            echo "unexpected output for 'asdf odo preference which'. Expected: ${HOME}/.config/odo/settings.yaml"
+            echo "unexpected output for 'asdf odo settings which'. Expected: ${HOME}/.config/odo/settings.yaml"
             exit 1
           fi
 
-      - name: Check that 'asdf odo preference which' works correctly if GLOBALODOCONFIG preference is set by user
+      - name: Check that 'asdf odo settings which' works correctly if GLOBALODOCONFIG settings is set by user
         run: |
           export GLOBALODOCONFIG=/tmp/config/odo_settings.yaml
-          ret=$(asdf odo preference which)
+          ret=$(asdf odo settings which)
           if [[ "$ret" != "${GLOBALODOCONFIG}" ]]; then
             echo "ret: $ret"
-            echo "unexpected output for 'asdf odo preference which'. Expected: ${GLOBALODOCONFIG}"
+            echo "unexpected output for 'asdf odo settings which'. Expected: ${GLOBALODOCONFIG}"
             exit 1
           fi
 
-      - name: Check that 'asdf odo preference reset' does not exit if GLOBALODOCONFIG does not exist
+      - name: Check that 'asdf odo settings reset' does not exit if GLOBALODOCONFIG does not exist
         run: |
           export GLOBALODOCONFIG=/tmp/404/some.file
-          asdf odo preference reset || exit 1
+          asdf odo settings reset || exit 1
           if [ -f "${GLOBALODOCONFIG}" ]; then
-            echo "File should still be inexistent after running 'asdf odo preference reset': ${GLOBALODOCONFIG}"
+            echo "File should still be inexistent after running 'asdf odo settings reset': ${GLOBALODOCONFIG}"
             exit 1
           fi
 
-      - name: Check that 'asdf odo preference reset' works correctly if GLOBALODOCONFIG preference is set by user
+      - name: Check that 'asdf odo settings reset' works correctly if GLOBALODOCONFIG settings is set by user
         run: |
           export GLOBALODOCONFIG=/tmp/config/odo_settings.yaml
           mkdir -p "$(dirname "${GLOBALODOCONFIG}")"
           cp -vr ./.github/.odo_config.yaml "${GLOBALODOCONFIG}"
-          (yes || true) | asdf odo preference reset
+          (yes || true) | asdf odo settings reset
           if [ -f "${GLOBALODOCONFIG}" ]; then
-            echo "File should have been removed by 'asdf odo preference reset': ${GLOBALODOCONFIG}"
+            echo "File should have been removed by 'asdf odo settings reset': ${GLOBALODOCONFIG}"
             exit 1
           fi
 
-      - name: Check that 'asdf odo preference reset' works correctly even if GLOBALODOCONFIG preference is not set
+      - name: Check that 'asdf odo settings reset' works correctly even if GLOBALODOCONFIG settings is not set
         run: |
           unset GLOBALODOCONFIG
           mkdir -p "${HOME}/.config/odo/"
           cp -vr ./.github/.odo_config.yaml "${HOME}/.config/odo/settings.yaml"
-          (yes || true) | asdf odo preference reset
+          (yes || true) | asdf odo settings reset
           if [ -f "${HOME}/.config/odo/settings.yaml" ]; then
-            echo "File should have been removed by 'asdf odo preference reset': ${HOME}/.config/odo/settings.yaml"
+            echo "File should have been removed by 'asdf odo settings reset': ${HOME}/.config/odo/settings.yaml"
             exit 1
           fi
 
