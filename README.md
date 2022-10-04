@@ -54,12 +54,12 @@ asdf global odo latest
 # Set a version depending on the project directory.
 # Note that this creates a file named '.tool-versions' in the current directory.
 # You may want to put that file under version control.
-asdf local odo <version>
+asdf local odo latest
 
 # Now odo commands are available
 odo version
 odo help
-# You can also run: asdf exec odo [odo_options]
+# You can also run: asdf exec odo -- [odo_options]
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) README for more instructions on how to
