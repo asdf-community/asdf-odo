@@ -11,6 +11,10 @@ TOOL_NAME="odo"
 TOOL_TEST="odo version"
 BASE_DL_URL="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME"
 
+
+ORIGINAL_ASDF_DOWNLOAD_PATH="${ASDF_DOWNLOAD_PATH}"
+ORIGINAL_ASDF_INSTALL_PATH="${ASDF_INSTALL_PATH}"
+
 ansi() {
   if [ -n "$TERM" ]; then
     # see if terminal supports colors...
@@ -117,7 +121,7 @@ list_all_versions() {
 }
 
 download_ref() {
-  local dl_dir gh_repo gh_ref
+  local dl_dir gh_repo gh_ref gh_ref_sanitized
   dl_dir="$1"
 
   if [[ "$2" == "https://github.com/"* ]]; then
@@ -127,6 +131,7 @@ download_ref() {
   fi
 
   gh_ref="$3"
+  gh_ref_sanitized="$4"
 
   local file_dl_dir extraction_dir extraction_tmp_dir
   file_dl_dir="$dl_dir/dl"
@@ -210,7 +215,8 @@ download_release() {
 install_version() {
   local install_type="$1"
   local version="$2"
-  local install_path="$3"
+  local version_sanitized="$3"
+  local install_path="$4"
 
   local tool_cmd
   tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
@@ -243,6 +249,9 @@ install_version() {
     # Assert odo executable exists.
     log_verbose "Testing that executable expected is really there at $install_path/bin/$tool_cmd"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
+
+    mkdir -p "${ORIGINAL_ASDF_INSTALL_PATH}/bin"
+    mv "$install_path/bin/$tool_cmd" "${ORIGINAL_ASDF_INSTALL_PATH}/bin/$tool_cmd"
 
     local msg
     msg="$TOOL_NAME $version installation was successful! Run: asdf <global | local> $TOOL_NAME"

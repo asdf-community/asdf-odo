@@ -8,16 +8,24 @@ fi
 current_script_path=${BASH_SOURCE[0]}
 plugin_dir=$(dirname "$(dirname "$current_script_path")")
 
-mkdir -p "$ASDF_DOWNLOAD_PATH/bin"
-
 # shellcheck source=../lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
+
+version="$ASDF_INSTALL_VERSION"
+if [[ "$ASDF_INSTALL_TYPE" == "ref" ]] && [[ "$ASDF_INSTALL_VERSION" == */* ]]; then
+  # This fixes an issue (in asdf itself) when version contains a '/'.
+  log_verbose "encoding slash characters in ASDF_INSTALL_VERSION variable ($ASDF_INSTALL_VERSION) as a workaround to https://github.com/rm3l/asdf-odo/issues/2"
+  export ASDF_INSTALL_VERSION=$(echo "$ASDF_INSTALL_VERSION" | sed 's/\//%2F/g')
+fi
+version_sanitized="$ASDF_INSTALL_VERSION"
+
+export ASDF_DOWNLOAD_PATH="${XDG_CACHE_HOME:-${HOME}/.cache}/asdf-odo/downloads/odo/${ASDF_INSTALL_VERSION}"
+export ASDF_INSTALL_PATH="${XDG_CACHE_HOME:-${HOME}/.cache}/asdf-odo/installs/odo/${ASDF_INSTALL_VERSION}"
 
 if [[ "$ASDF_INSTALL_TYPE" == "ref" ]]; then
   dl_dir="$ASDF_DOWNLOAD_PATH"
   gh_repo="${ASDF_GITHUB_REPO_FOR_ODO:-$GH_REPO}"
-  gh_ref="${ASDF_INSTALL_VERSION}"
-  download_ref "$dl_dir" "$gh_repo" "$gh_ref"
+  download_ref "$dl_dir" "$gh_repo" "$version" "$version_sanitized"
 else
   release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
   download_release "$ASDF_INSTALL_VERSION" "$release_file"
