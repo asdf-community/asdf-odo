@@ -9,6 +9,7 @@ fi
 GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
+BASE_DL_URL="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME"
 
 ansi() {
   if [ -n "$TERM" ]; then
@@ -105,7 +106,7 @@ list_github_tags() {
 list_all_versions() {
   # Installable versions are the ones users can actually download from Red Hat Content Gateway
   local tmpfile=$(mktemp /tmp/asdf-odo-list-installable-versions.XXXXXX)
-  local versionsUrl="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/"
+  local versionsUrl="${BASE_DL_URL}/"
   curl "${curl_opts[@]}" -o "$tmpfile" -C - "$versionsUrl" || fail "Could not list installable versions using $versionsUrl"
   list_github_tags |
     tr '-' '~' |
@@ -177,7 +178,7 @@ download_release() {
 
   # versions with a '-' need to be replaced with '~' in the download URL
   local versionForDl=$(echo "$version" | tr '-' '~')
-  local urlForVersion="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME/v${versionForDl}"
+  local urlForVersion="${BASE_DL_URL}/v${versionForDl}"
   local toolBinaryNameWithExtension="$TOOL_NAME-${os_arch}${binaryExtension}"
   url="${urlForVersion}/${toolBinaryNameWithExtension}"
 
