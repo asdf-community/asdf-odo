@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/rm3l/asdf-odo/compare/v3.0.0...v3.0.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* Fix filter that lists only installable versions ([c200c6f](https://github.com/rm3l/asdf-odo/commit/c200c6f194f7b2d28a9fda61895b940298fdbaf1))
+
 ## [3.0.0](https://github.com/rm3l/asdf-odo/compare/v2.0.0...v3.0.0) (2022-09-30)
 
 
