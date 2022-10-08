@@ -105,7 +105,7 @@ list_github_tags() {
 
 list_all_versions() {
   # Installable versions are the ones users can actually download from Red Hat Content Gateway
-  local tmpfile=$(mktemp /tmp/asdf-odo-list-installable-versions.XXXXXX)
+  local tmpfile=$(mktemp -t asdf-odo-installable-tool-versions.XXXXXX)
   local versionsUrl="${BASE_DL_URL}/"
   curl "${curl_opts[@]}" -o "$tmpfile" -C - "$versionsUrl" || fail "Could not list installable versions using $versionsUrl"
   list_github_tags |
