@@ -108,9 +108,10 @@ list_all_versions() {
   local tmpfile=$(mktemp -t asdf-odo-installable-tool-versions.XXXXXX)
   local versionsUrl="${BASE_DL_URL}/"
   curl "${curl_opts[@]}" -o "$tmpfile" -C - "$versionsUrl" || fail "Could not list installable versions using $versionsUrl"
+  # Filter out tags but considering only those that have a valid download URL in the download index URL
   list_github_tags |
     tr '-' '~' |
-    awk -v "installable_versions=$tmpfile" '{if (system("grep -Fq $versionsUrl/v"$1 OFS installable_versions) == 0){print $1}}' |
+    awk -v "installable_versions=$tmpfile" '{if (system("grep -Fq $versionsUrl/v"$1"/" OFS installable_versions) == 0){print $1}}' |
     tr '~' '-'
   rm -f "$tmpfile"
 }
