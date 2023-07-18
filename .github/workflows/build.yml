@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir -p "${HOME}/.config/odo"
           cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
-          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> $GITHUB_ENV
+          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> "$GITHUB_ENV"
 
       - name: Install latest odo
         run: |
@@ -172,7 +172,7 @@ jobs:
         run: |
           mkdir -p "${HOME}/.config/odo"
           cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
-          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> $GITHUB_ENV
+          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> "$GITHUB_ENV"
 
       - name: Install odo v${{ matrix.version }}
         run: |
@@ -220,14 +220,14 @@ jobs:
         run: |
           mkdir -p "${HOME}/.config/odo"
           cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
-          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> $GITHUB_ENV
+          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> "$GITHUB_ENV"
 
       - name: Install odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
+          asdf install odo ref:"$GIT_REF"
+          asdf global odo ref:"$GIT_REF"
 
       - name: Test odo using Git ref (${{ matrix.git_ref }}) from upstream repo
         env:
@@ -274,14 +274,14 @@ jobs:
         run: |
           mkdir -p "${HOME}/.config/odo"
           cp "$(pwd)/.github/.odo_config.yaml" "${HOME}/.config/odo/config.yaml"
-          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> $GITHUB_ENV
+          echo "GLOBALODOCONFIG=${HOME}/.config/odo/config.yaml" >> "$GITHUB_ENV"
 
       - name: Download and install odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
           GIT_REF: ${{ matrix.git_ref }}
         run: |
-          asdf install odo ref:$GIT_REF
-          asdf global odo ref:$GIT_REF
+          asdf install odo ref:"$GIT_REF"
+          asdf global odo ref:"$GIT_REF"
 
       - name: Test odo using Git ref (${{ matrix.git_ref }}) from fork repo
         env:
