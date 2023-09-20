@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-odo [![Build](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml) [![Lint](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml)
+# asdf-odo [![Build](https://github.com/asdf-community/asdf-odo/actions/workflows/build.yml/badge.svg)](https://github.com/asdf-community/asdf-odo/actions/workflows/build.yml) [![Lint](https://github.com/asdf-community/asdf-odo/actions/workflows/lint.yml/badge.svg)](https://github.com/asdf-community/asdf-odo/actions/workflows/lint.yml)
 
 
 [asdf](https://asdf-vm.com) plugin for managing runtime versions of [odo](https://odo.dev), the developer-focused CLI for fast & iterative container-based application development on [Podman](https://podman.io/), [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [Kubernetes](https://kubernetes.io/).
@@ -36,7 +36,7 @@ asdf plugin add odo
 or using the full repo URL:
 
 ```shell
-asdf plugin add odo https://github.com/rm3l/asdf-odo.git
+asdf plugin add odo https://github.com/asdf-community/asdf-odo.git
 ```
 
 To check that the plugin is installed correctly and to manage versions of `odo`:
@@ -197,7 +197,7 @@ ASDF_ODO_VERBOSE=true asdf install odo 3.0.0
 
 Contributions of any kind are welcome! See the [contributing guide](contributing.md).
 
-[Thanks to these contributors](https://github.com/rm3l/asdf-odo/graphs/contributors)!
+[Thanks to these contributors](https://github.com/asdf-community/asdf-odo/graphs/contributors)!
 
 # License
 
