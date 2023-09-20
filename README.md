@@ -3,7 +3,7 @@
 # asdf-odo [![Build](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/build.yml) [![Lint](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml/badge.svg)](https://github.com/rm3l/asdf-odo/actions/workflows/lint.yml)
 
 
-[asdf](https://asdf-vm.com) plugin for managing runtime versions of [odo](https://odo.dev), the developer-focused CLI for fast & iterative application development on [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [Kubernetes](https://kubernetes.io/).
+[asdf](https://asdf-vm.com) plugin for managing runtime versions of [odo](https://odo.dev), the developer-focused CLI for fast & iterative container-based application development on [Podman](https://podman.io/), [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [Kubernetes](https://kubernetes.io/).
 
 </div>
 
