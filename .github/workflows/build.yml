@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
@@ -159,7 +159,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
@@ -201,7 +201,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
@@ -255,7 +255,7 @@ jobs:
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
 
       - name: Install asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         with:
           asdf_branch: v0.10.2
 
