@@ -152,7 +152,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        version: ["2.5.1", "3.0.0-rc2", "3.15.0"]
+        version: ["2.5.1", "3.0.0-rc2", "3.15.0", "ref:nightly"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
@@ -181,10 +181,14 @@ jobs:
 
       - name: Test odo v${{ matrix.version }}
         run: |
-          res=$(odo version | grep -F "v${{ matrix.version }}" || echo false)
+          grepWord="v${{ matrix.version }}"
+          if [[ "${{ matrix.version }}" == "ref:nightly" ]]; then
+            grepWord="nightly"
+          fi
+          res=$(odo version | grep -F "${grepWord}" || echo false)
           if [[ "$res" == "false" ]]; then
             version_output=$(odo version 2>&1 || true)
-            echo "Expected 'odo version' to contain \"v${{ matrix.version }}\", but got $version_output"
+            echo "Expected 'odo version' to contain \"${grepWord}\", but got $version_output"
             exit 1
           fi
 
