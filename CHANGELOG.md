@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/asdf-community/asdf-odo/compare/v3.0.1...v3.1.0) (2024-04-29)
+
+
+### Features
+
+* Allow to download nightly binaries of odo using 'asdf install odo ref:nightly' ([f75be3f](https://github.com/asdf-community/asdf-odo/commit/f75be3f49af7db8b03e6c110dafb1d81cd9e04b6))
+* Allow to download nightly binaries using `asdf install odo ref:nightly` ([#73](https://github.com/asdf-community/asdf-odo/issues/73)) ([dd9d1f0](https://github.com/asdf-community/asdf-odo/commit/dd9d1f0ab684eb8616df644efd9f760eef5b6766))
+
 ## [3.0.1](https://github.com/rm3l/asdf-odo/compare/v3.0.0...v3.0.1) (2022-10-08)
 
 
