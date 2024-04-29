@@ -101,6 +101,13 @@ Now you can pick and install any version from the list above:
 asdf install odo <version>
 ```
 
+## How do I install nightly releases of odo?
+
+Run the command below:
+```shell
+asdf install odo ref:nightly
+```
+
 ## How do I install odo from specific (unreleased) Git commits or branches?
 
 NOTE: This will download and build `odo` on your machine. Make sure you installed these optional [dependencies](README.md#dependencies), besides the mandatory ones: `unzip`, `git`, [Golang](https://go.dev/doc/install) and `make`.
@@ -171,7 +178,7 @@ asdf uninstall odo <version>
 ```
 
 ## How do I reinstall an already installed version of odo?
-Because of the way `asdf` works (by enforcing exact versions), if you installed odo from a development branch and wish to update it, you need to reinstall that specific version.
+Because of the way `asdf` works (by enforcing exact versions), if you installed odo from a development branch (or a nightly release) and wish to update it, you need to reinstall that specific version.
 To reinstall an already installed version of odo, first [uninstall it](README.md#how-do-i-uninstall-a-given-version-of-odo), and then [install it](README.md#install) again.
 
 `latest` is a special version number that `asdf` dynamically resolves to the latest known version at the time of execution. So running `asdf install odo latest` might install a newer version of `odo`, if a newer version is available at the time the command is executed.
