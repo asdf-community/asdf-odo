@@ -10,6 +10,7 @@ GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
 BASE_DL_URL="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME"
+NIGHTLY_BASE_DL_URL="https://s3.eu-de.cloud-object-storage.appdomain.cloud/$TOOL_NAME-nightly-builds"
 
 ansi() {
   if [ -n "$TERM" ]; then
@@ -153,6 +154,49 @@ download_ref() {
   rm -rf "${extraction_tmp_dir}" "$filename"
 }
 
+download_nightly() {
+  local os_arch os arch version filename url
+
+  if [ -n "${ASDF_ODO_BINARY_OS_ARCH:-}" ]; then
+    os_arch="$ASDF_ODO_BINARY_OS_ARCH"
+    log_verbose "Using pre-defined ASDF_ODO_BINARY_OS_ARCH environment variable: $ASDF_ODO_BINARY_OS_ARCH"
+  else
+    os=${ASDF_ODO_BINARY_OS:-"$(uname_os)"}
+    log_verbose "Using Operating System: $os"
+    arch=${ASDF_ODO_BINARY_ARCH:-"$(uname_arch)"}
+    log_verbose "Using Processor Architecture: $arch"
+    os_arch="${os}-${arch}"
+  fi
+
+  filename="$1"
+
+  local binaryExtension
+  if [[ "$os_arch" == "windows-"* ]]; then
+    binaryExtension=".exe"
+  else
+    binaryExtension=""
+  fi
+
+  local toolBinaryNameWithExtension="$TOOL_NAME-${os_arch}${binaryExtension}"
+  url="${NIGHTLY_BASE_DL_URL}/${toolBinaryNameWithExtension}"
+
+  echo "* Downloading $TOOL_NAME nightly release, for $os_arch..."
+  log_verbose "Download URL: $url, using curl options: '${curl_opts[@]}'"
+  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  log_verbose "Downloaded file and saved it to $filename"
+
+  if [[ "${ASDF_ODO_CHECKS_SKIP_FILE_CHECKSUM:-false}" != "true" ]]; then
+    echo "* Verifying filename integrity..."
+    shaurl="${url}.sha256"
+    log_verbose "Download URL: $shaurl, using curl options: '${curl_opts[@]}'"
+    shafilename="$filename.sha256"
+    curl "${curl_opts[@]}" -o "$shafilename" -C - "$shaurl" || fail "Could not download $shaurl"
+    (echo "$(<$shafilename)  $filename" | shasum -a 256 --check) || fail "Could not check integrity of downloaded file"
+  fi
+
+  chmod a+x "$filename"
+}
+
 download_release() {
   local os_arch os arch version filename url
 
@@ -219,7 +263,7 @@ install_version() {
 
   (
     mkdir -p "$install_path"/bin
-    if [[ "$install_type" == "ref" ]]; then
+    if [[ "$install_type" == "ref" && "$version" != "nightly" ]]; then
       cd "$ASDF_DOWNLOAD_PATH/src"
       local git_commit_for_version
       if [[ "${ASDF_GITHUB_REPO_FOR_ODO:-}" == "" ]]; then
