@@ -17,7 +17,12 @@ if [[ "$ASDF_INSTALL_TYPE" == "ref" ]]; then
   dl_dir="$ASDF_DOWNLOAD_PATH"
   gh_repo="${ASDF_GITHUB_REPO_FOR_ODO:-$GH_REPO}"
   gh_ref="${ASDF_INSTALL_VERSION}"
-  download_ref "$dl_dir" "$gh_repo" "$gh_ref"
+  if [[ "$gh_ref" == "nightly" ]]; then
+    release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
+    download_nightly "$release_file"
+  else
+    download_ref "$dl_dir" "$gh_repo" "$gh_ref"
+  fi
 else
   release_file="$ASDF_DOWNLOAD_PATH/bin/$TOOL_NAME"
   download_release "$ASDF_INSTALL_VERSION" "$release_file"
