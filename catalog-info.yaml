@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: asdf-odo
+  annotations:
+    github.com/project-slug: asdf-community/asdf-odo
+spec:
+  type: other
+  lifecycle: unknown
