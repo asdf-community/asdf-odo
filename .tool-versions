@@ -2,4 +2,4 @@
 shellcheck 0.10.0
 
 # shell parser, formatter, and interpreter: https://github.com/mvdan/sh
-shfmt 3.9.0
+shfmt 3.10.0
