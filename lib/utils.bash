@@ -10,7 +10,7 @@ GH_REPO="https://github.com/redhat-developer/odo"
 TOOL_NAME="odo"
 TOOL_TEST="odo version"
 BASE_DL_URL="https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/$TOOL_NAME"
-NIGHTLY_BASE_DL_URL="https://s3.us-south.cloud-object-storage.appdomain.cloud/odo-nightly/$TOOL_NAME-nightly"
+NIGHTLY_BASE_DL_URL="https://s3.us-south.cloud-object-storage.appdomain.cloud/${TOOL_NAME}-nightly"
 
 ansi() {
   if [ -n "$TERM" ]; then
