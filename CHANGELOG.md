@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/asdf-community/asdf-odo/compare/v3.1.0...v3.1.1) (2025-05-21)
+
+
+### Bug Fixes
+
+* Fix download URL for nightly builds of odo ([9071617](https://github.com/asdf-community/asdf-odo/commit/90716170d1d36f24ad3ba8f43a166e0a71a6d5be))
+
 ## [3.1.0](https://github.com/asdf-community/asdf-odo/compare/v3.0.1...v3.1.0) (2024-04-29)
 
 
